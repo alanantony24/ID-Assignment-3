@@ -1,0 +1,19 @@
+*{
+    font-family: 'Roboto', sans-serif;
+}
+.navlist{
+    margin-left: auto;
+    font-size: 27px;
+    margin-right: 140px;
+}
+.navbar-brand{
+    margin-left: 140px;
+    font-size: 27px;
+    font-weight: bold;
+}
+.nav-link{
+    color: black;
+    background-color: aqua;
+    border-radius: 50px;
+    margin-left: 25px;
+}
