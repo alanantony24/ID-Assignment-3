@@ -1,19 +1,36 @@
 *{
     font-family: 'Roboto', sans-serif;
+    background-color: #D2F5EC;
 }
+/*Navbar CSS*/
 .navlist{
     margin-left: auto;
-    font-size: 27px;
+    font-size: 15px;
     margin-right: 140px;
 }
 .navbar-brand{
     margin-left: 140px;
-    font-size: 27px;
+    font-size: 30px;
     font-weight: bold;
 }
 .nav-link{
-    color: black;
-    background-color: aqua;
+    color: white;
+    background-color: #1491AA;
     border-radius: 50px;
-    margin-left: 25px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+/*Landing Page CSS*/
+.nav-item{
+    padding-right: 20px;
+}
+.heading{
+    padding-top: 70px;
+}
+.headingtext{
+    font-size: 60px;
+}
+/*Main Program CSS*/
+.main{
+    padding-top: 20px;
 }
