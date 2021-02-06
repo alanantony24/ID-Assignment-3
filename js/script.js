@@ -52,6 +52,15 @@ $(document).ready(function(){
         deleteProject(deleteId);
         
     })
+    var $updateBtn =$('.update-project').children('form').children(':submit');
+
+    $updateBtn.on('click',function(e){
+        e.preventDefault();
+        var existingId = $('.update-project').children('form').children('input#update-id').val();
+        var updatedName = $('.update-project').children('form').children('input#update-name').val();
+        updateActiveProject(existingId,updatedName);
+
+    });
 });
 
 function createNewProject(pName){ //POST method
@@ -151,5 +160,24 @@ function deleteProject(deleteId){
         if(response  === undefined){
             alert(`Project ID:${deleteId} has been deleted successfully.`);
         }
+    });
+}
+function updateActiveProject(pId,updatedName){
+    updatedInfo = {
+        "name":updatedName
+    }
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/projects/${pId}`,
+        "method":"POST",
+        "headers":{
+            "Content-Type": "application/json",
+            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+        },
+        
+        "data":JSON.stringify(updatedInfo)
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+
     });
 }
