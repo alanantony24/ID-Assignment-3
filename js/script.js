@@ -22,14 +22,41 @@ $(document).ready(function(){
         48:"#b8b8b8",
         49:"#ccac93"
     }
+    var targetId = "";
+    $('input#Project-Id').focus(function(){
+        targetId = $('input#Project-Id').val();
+    })
+    $('input#submit-Id').on("click",function(e){
+        e.preventDefault();
+        getOneProject(targetId);
+    });
+    $('input#create-task').on("click",function(e){
+        e.preventDefault();
+        var taskName = $('input#new-task').val();
+        createNewTask(taskName);
+    });
 
-    getMethod(colorArray);
+    $('input#create-project').on("click",function(e){
+        e.preventDefault();
+        var projectName = $('input#new-project').val();
+        createNewProject(projectName);
+        
+    });
 
+    $('input#delete-button').on("click",function(e){
+        e.preventDefault();
+        var deleteId = $('input#delete-Id').val();
+        
+        //deleteId.substr(deleteId.indexOf("%"),1);
+        console.log(deleteId);
+        deleteProject(deleteId);
+        
+    })
 });
 
-function POSTmethod(){ //POST method
-    let myData ={
-        "name":"My first project!"
+function createNewProject(pName){ //POST method
+    var projectInfo = {
+        "name":pName
     }
     var settings = {
         "url":"https://api.todoist.com/rest/v1/projects",
@@ -39,15 +66,14 @@ function POSTmethod(){ //POST method
             "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
             //"X-Request-Id":""
         },
-        "data":JSON.stringify(myData)
+        "data":JSON.stringify(projectInfo)
     };
     $.ajax(settings).done(function(response){
         console.log(response);
-        
-    });
+    })
 }
 
-function getMethod(colorArray){
+function getAllProjects(){
     var settings = {
         "url":"https://api.todoist.com/rest/v1/projects",
         "method":"GET",
@@ -71,5 +97,59 @@ function getMethod(colorArray){
         
 };
 
+function getOneProject(targetId){
+    
+   
+    var settings =
+    {
+        "url":`https://api.todoist.com/rest/v1/projects/${targetId}`,
+        "method":"GET",
+        "headers":{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+        }
+
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+    });
+
+}
 
 
+function createNewTask(taskName){
+    var taskInfo = {
+        "content":taskName,
+        
+        "due_string": "tomorrow at 12:00", 
+        "due_lang": "en", 
+        "priority": 4
+    } 
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/tasks`,
+        "method":"POST",
+        "headers":{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+        },
+        "data":JSON.stringify(taskInfo)
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+    });
+}
+function deleteProject(deleteId){
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/projects/${deleteId}`,
+        "method":"DELETE",
+        "headers":{
+            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+        }
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+        if(response  === undefined){
+            alert(`Project ID:${deleteId} has been deleted successfully.`);
+        }
+    });
+}
