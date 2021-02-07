@@ -61,6 +61,21 @@ $(document).ready(function(){
         updateActiveProject(existingId,updatedName);
 
     });
+    $('input#sign-up').on('click',function(e){
+        e.preventDefault();
+        var newUsername = $('input#newUsername').val();
+        var newPassword = $('input#newPassword').val();
+        userSignUp(newUsername,newPassword);
+    });
+
+    $loginBtn = $('.test-login input:submit#login');
+    $loginBtn.on('click',function(e){
+        let $loginUsername = $('.test-login input:text#username').val();
+        let $loginPassword = $('.test-login input:password#password').val()    
+        e.preventDefault();
+        userLogin($loginUsername, $loginPassword);
+    });
+
 });
 
 function createNewProject(pName){ //POST method
@@ -180,4 +195,60 @@ function updateActiveProject(pId,updatedName){
         console.log(response);
 
     });
+}
+
+function userSignUp(newUsername,newPassword){
+    var userdata={
+        "username":newUsername,
+        "password":newPassword,
+    }   
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records",
+        "method": "POST",
+        "headers": {
+          "content-type": "application/json",
+          "x-apikey": "601fe54e3f9eb665a168922e",
+          "cache-control": "no-cache"
+        },
+        "data":JSON.stringify(userdata)
+      }
+      
+      $.ajax(settings).done(function (response) {
+        console.log(response);
+      });
+}
+
+function userLogin($loginUsername,$loginPassword){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records",
+        "method": "GET",
+        "headers": {
+          "content-type": "application/json",
+          "x-apikey": "601fe54e3f9eb665a168922e",
+          "cache-control": "no-cache"
+        }
+      }
+      
+      $.ajax(settings).done(function (response) {
+        console.log(response);
+        console.log(response.length);
+        let userFound = 0;
+        for(var i = 0;i<response.length;i++){
+            let user = response[i];
+            if(user.username ===$loginUsername  && user.password===$loginPassword){
+                alert("login successful!");
+                userFound += 1; //value becomes zero after user is found
+                break;              
+            }
+            else if(userFound !== 1 && i === response.length - 1) {      //to avoid for loop repitition for each un-matching record
+                alert("username or password is incorrect!Please check again!");
+            }    
+
+        }
+      });
+
 }
