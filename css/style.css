@@ -30,6 +30,20 @@
 .headingtext{
     font-size: 60px;
 }
+.features{
+    padding-top: 50px;
+}
+.feature2{
+    padding-top: 50px;
+}
+.featuretext{
+    padding-top: 100px;
+}
+.lottie{
+    position: relative;
+    bottom: 90px;
+    left: 30px;
+}
 /*Main Program CSS*/
 .main{
     padding-top: 20px;
