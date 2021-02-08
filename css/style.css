@@ -2,6 +2,12 @@
     font-family: 'Roboto', sans-serif;
     background-color: #D2F5EC;
 }
+h1{
+    font-family: 'Roboto',sans-serif;
+}
+h2{
+    font-family: 'Monsteratt', sans-serif;
+}
 /*Navbar CSS*/
 .navlist{
     margin-left: auto;
