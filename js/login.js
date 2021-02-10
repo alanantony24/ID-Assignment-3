@@ -58,8 +58,7 @@ function userLogin($loginUsername,$loginPassword){
     <div class = "col-xs-10 col-md-4">
         <lottie-player src="https://assets1.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json"  background="transparent" speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
     </div>
-    </div>
-`; //loading animation content
+    </div>`; //loading animation content
  
     $.ajax(settings).done(function(response){
         console.log(response);
@@ -68,10 +67,13 @@ function userLogin($loginUsername,$loginPassword){
         for(var i = 0;i<response.length;i++){
             let user = response[i];
             if(user.username ===$loginUsername  && user.password===$loginPassword){
-                alert("login successful!");
+                
                 userFound += 1; //value becomes zero after user is found
+
                 $('section.row').remove()            //clear login page for loading animation,whilst retaining script tags
                 $('section').prepend(loadContent);      
+                setTimeout(redirectToMain,2500);  //load up main interface
+        
                 break;              
             }
             else if(userFound !== 1 && i === response.length - 1) {      //to avoid for loop repitition for each un-matching record
@@ -81,3 +83,7 @@ function userLogin($loginUsername,$loginPassword){
         }
     })
 };
+
+function redirectToMain(){
+    window.location.replace("main.html");
+}
