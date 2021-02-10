@@ -1,4 +1,4 @@
-*{
+body{
     font-family: 'Roboto', sans-serif;
     background-color: #D2F5EC;
 }
@@ -81,3 +81,17 @@ form.login-form div.form-group,form.sign-up-form div.form-group{
     padding: 0px 40%;
 }
 /*==============================================================================================================================================*/
+.avatar{                                        
+    border-radius: 50%;
+    border:2px solid #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+    align-self: center;
+    color: #000;
+    margin: 5px;
+}
+button.dropdown-toggle{
+    padding: 5px ;
+}
