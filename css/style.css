@@ -55,10 +55,12 @@ h2{
     padding-top: 20px;
 }
 /*===================================================CSS for Login/Signup page==================================================================*/
+
 .login-register-wrapper{
     padding: 30px 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     border: 2px solid#000;
+    box-shadow: 5px 5px 10px grey;
     background-color: rgb(0, 255, 149) !important;
     position: relative;
     top:20px;

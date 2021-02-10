@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    //$('*').css('background-color',"transparent");                 //remove background color from index.html
     $('input#create-user-button').on('click',function(e){
         e.preventDefault();
         var $newUsername = $('form.sign-up-form').children().first().children('input#newUsername').val();
@@ -52,8 +53,9 @@ function userLogin($loginUsername,$loginPassword){
         }
     }
     let loadContent = `
-    <div class ="row justify-content-center align-items-center">
-    <div class = "col-xs-4 col-md-4">
+
+    <div class ="row justify-content-center align-self-center">
+    <div class = "col-xs-10 col-md-4">
         <lottie-player src="https://assets1.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json"  background="transparent" speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
     </div>
     </div>
@@ -68,8 +70,8 @@ function userLogin($loginUsername,$loginPassword){
             if(user.username ===$loginUsername  && user.password===$loginPassword){
                 alert("login successful!");
                 userFound += 1; //value becomes zero after user is found
-                $('section.row').remove()            //clear login page for loading animation
-                $('section').prepend(loadContent);
+                $('section.row').remove()            //clear login page for loading animation,whilst retaining script tags
+                $('section').prepend(loadContent);      
                 break;              
             }
             else if(userFound !== 1 && i === response.length - 1) {      //to avoid for loop repitition for each un-matching record
