@@ -75,7 +75,23 @@ $(document).ready(function(){
         e.preventDefault();
         userLogin($loginUsername, $loginPassword);
     });
-
+    /*================================================================NEW EVENT LISTENERS FOR TASKS API ==========================================*/
+    $("input#search-task").on("click",function(e){
+        e.preventDefault();
+        let $targetTask = $("input#task-id").val();
+        deleteTask($targetTask);
+    });
+    $('input#update-button').on("click",function(e){
+        e.preventDefault();
+        let updatingTaskId = $('input#update-task-id').val();
+        let updatedContent = $('input#new-content').val();
+        updateTask(updatingTaskId,updatedContent);
+    });
+    $('input#complete-button').on("click",function(e){
+        e.preventDefault();
+        let completedTask = $('input#completing-task-id').val();
+        closeTask(completedTask);
+    });
 });
 
 function createNewProject(pName){ //POST method
@@ -140,12 +156,12 @@ function getOneProject(targetId){
 
 }
 
-
 function createNewTask(taskName){
     var taskInfo = {
         "content":taskName,
         
-        "due_string": "tomorrow at 12:00", 
+        //"due_date":'2021-05-29',
+        //"due_string": "tomorrow at 12:00", 
         "due_lang": "en", 
         "priority": 4
     } 
@@ -154,7 +170,7 @@ function createNewTask(taskName){
         "method":"POST",
         "headers":{
             "Content-Type":"application/json",
-            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
         },
         "data":JSON.stringify(taskInfo)
     }
@@ -166,8 +182,13 @@ function deleteProject(deleteId){
     var settings = {
         "url":`https://api.todoist.com/rest/v1/projects/${deleteId}`,
         "method":"DELETE",
+        "statusCode":{
+            204:function(){
+                alert(`Project Id:${deleteId} has been deleted!`);
+            }
+        },
         "headers":{
-            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
         }
     }
     $.ajax(settings).done(function(response){
@@ -177,6 +198,9 @@ function deleteProject(deleteId){
         }
     });
 }
+
+
+
 function updateActiveProject(pId,updatedName){
     updatedInfo = {
         "name":updatedName
@@ -251,4 +275,82 @@ function userLogin($loginUsername,$loginPassword){
         }
       });
 
+}
+
+
+/*============  NEW FUNCTIONS FOR TASKS REST API ADDED BELOW==========================*/
+
+function getOneTask(activeTask){          //get tasks only works for ACTIVE tasks
+    var settings={
+        "url":`https://api.todoist.com/rest/v1/tasks/${activeTask}`,
+        "method":"GET",
+        "headers":{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+        }
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+    });
+}
+
+function deleteTask(deletingTask){          //get tasks only works for ACTIVE tasks
+    var settings={
+        "url":`https://api.todoist.com/rest/v1/tasks/${deletingTask}`,
+        "method":"DELETE",
+        "statusCode":{
+            204:function(){
+                alert(`Task Id:${deletingTask} has been deleted!`);
+            }
+        },
+        "headers":{
+            
+            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+        }
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+       
+    });
+}
+
+function updateTask(updatingTaskId,updatedContent){
+    var updatedInfo ={
+        "content":updatedContent
+    }
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/tasks/${updatingTaskId}`,
+        "method":"POST",
+        "statusCode":{
+            204:function(){
+                alert(`Task:${updatingTaskId} updated successfully!`);
+            }
+        },
+        "headers":{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+        },
+        "data":JSON.stringify(updatedInfo)
+    }
+    $.ajax(settings).done(function(response){
+        
+    });
+}
+
+function closeTask(closingTaskId){
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/tasks/${closingTaskId}/close`,
+        "method":"POST",
+        "statusCode":{
+            204:function(){
+                alert(`Task Id :${closingTaskId} has been successfully closed!`);
+            }
+        },
+        "headers":{
+            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+        }
+    }
+    $.ajax(settings).done(function(response){
+
+    });
 }
