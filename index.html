@@ -116,9 +116,15 @@
       </div>
       <div class="new-task">
         <form>
-          <label for="task-name">Enter a task name:</label>
-          <input type="text" name="task-name" id="new-task" required>
-          <input type="submit" id = "create-task" value="Create new Task"> 
+          <label for="project-id">Enter your project id:</label>
+          <input type="text" name="project-id" id="project-id" placeholder="default - inbox" required>
+          <label for="task-content">Enter Task Name:</label>
+          <input type="text" name="task-content" id="task-content" placeholder="e.g. Buy groceries from Market">
+          <label for="due_datetime">Enter date & time:</label>
+          <input type="date" name="due_datetime" id="task_datetime">
+          <input type="button" id="create-task" value="Create new task">
+
+
         </form>
       </div>
       <div class="new-project">
@@ -160,6 +166,31 @@
           <label for="password">Password:</label>
           <input type="password" name="password" id="password">
           <input type="submit" id ="login" value="Login">
+        </form>
+      </div>
+      <div class="get-tasks">
+        <form>
+          <label for="task-id">Enter task id:</label>
+          <input type="text" name="task-id" id="task-id">
+          <input type="button" id = "search-task"value="Search Task">
+        </form>
+      </div>
+      <div class="update-tasks">
+        <form>
+          <label for="update-task-id">Enter task id:</label>
+          <input type="text" name="update-task-id" id="update-task-id">
+          <label for="new-content">Enter New Task Name:</label>
+          <input type="text" name="new-content" id="new-content">
+          <input type="button" id = "update-button" value="Update Task">
+        </form>
+
+      </div>
+      <div class="completing-task">
+        <form>
+          <label for="completing-task-id">Enter closing task id:</label>
+          <input type="text" name="completing-task-id" id="completing-task-id">
+          
+          <input type="button" id = "complete-button" value="Complete Task">
         </form>
       </div>
 
