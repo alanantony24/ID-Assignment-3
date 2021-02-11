@@ -26,3 +26,14 @@ function logOutUser(logOutContent){
 function redirectToHome(){
     window.location.replace("index.html");
 }
+var navtab = document.getElementById("menuicon");
+var navmenu = document.getElementById("navmenu");
+navmenu.style.left = "-250px"
+navtab.onclick = function(){
+    if(navmenu.style.left == "-250px"){
+        navmenu.style.left = "0";
+    }
+    else{
+        navmenu.style.left = "-250px"
+    }
+}
