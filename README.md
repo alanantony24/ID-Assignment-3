@@ -8,12 +8,27 @@ Nowadays,many youths,students and working adults are busy round the clock,and ar
 # API Info
 * [Todoist Rest API](https://developer.todoist.com/rest/v1/#overview)
 
-# Features
+# General Features
 
 ### General 
 * **User Login/Sign Up:** Users must sign up or login to an OrDino user account 
 to use this app.
+### User accounts
+For the todoist API,we are incorporating a few custom users for our website flow.
+Since each user has his own set of projects,we decided to generate a few API keys for these users using our gmail (personal and school accounts).
+This would ensure that each user's projects&tasks are individualised ,smoothly read and written to.
 
+### User credentials
+No.|User Name| Password|Email Address | API-KEY
+---------------------------------------
+1.|amanadam|amanadam24|s10207327@connect.np.edu.sg|9ffb6de49236f049524d53010b0fe7e1b55a9175|
+2.|kebabboy|mepro|s10204884@connect.np.edu.sg|091ba9ad13fb753c014adf401afbc0b3ce476db2|
+3.|macho|nonono987|mahshuk410@gmail.com|74829a769468751c27ce5dbf7c162c31c6972322|
+4.|mrbarbarian24|alanantony|alanantony050@gmail.com|69240a14af7f11d150b64bc00c5558cba3741041|
+
+
+
+# Gamification features
 ### Points system
 We have implemented a three-tier system.
 Through which users can gain points for completing objectives,assigned to them
