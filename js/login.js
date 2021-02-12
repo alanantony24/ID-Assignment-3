@@ -1,5 +1,6 @@
+
+
 $(document).ready(function(){
-    //$('*').css('background-color',"transparent");                 //remove background color from index.html
     $('input#create-user-button').on('click',function(e){
         e.preventDefault();
         var $newUsername = $('form.sign-up-form').children().first().children('input#newUsername').val();
@@ -16,7 +17,6 @@ $(document).ready(function(){
         userLogin($loginUsername, $loginPassword);
     });
 });
-
 function userSignUp(newUsername,newPassword){
     var userdata={
         "username":newUsername,
@@ -75,6 +75,7 @@ function userLogin($loginUsername,$loginPassword){
                 
                 userFound += 1; //value becomes zero after user is found
                 localStorage.setItem("User",user.username);
+                localStorage.setItem("API_KEY",user.API_KEY); //store api-key for usage in main.js
                 $('section.row').remove()            //clear login page for loading animation,whilst retaining script tags
                 $('section').prepend(loadContent);      
                 setTimeout(redirectToMain,2500);  //load up main interface

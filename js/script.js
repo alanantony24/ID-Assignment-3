@@ -1,27 +1,5 @@
 $(document).ready(function(){
-    var colorArray = 
-    {
-        30:"#b8256f",
-        31:"#db4035",
-        32:"#ff9933",
-        33:"#fad000",
-        34:"#afb83b",           
-        35:"#7ecc49",
-        36:"#299438",
-        37:"#6accbc",
-        38:"#158fad",
-        39:"#14aaf5",
-        40:"#96c3eb",
-        41:"#4073ff",
-        42:"#884dff",
-        43:"#af38eb",
-        44:"#eb96eb",
-        45:"#e05194",
-        46:"#ff8d85",
-        47:"#808080",
-        48:"#b8b8b8",
-        49:"#ccac93"
-    }
+ 
     var targetId = "";
     $('input#Project-Id').focus(function(){
         targetId = $('input#Project-Id').val();
@@ -94,7 +72,7 @@ $(document).ready(function(){
     });
 });
 
-function createNewProject(pName){ //POST method
+function createNewProject(pName,API_KEY){ //POST method
     var projectInfo = {
         "name":pName
     }
@@ -103,7 +81,7 @@ function createNewProject(pName){ //POST method
         "method":"POST",
         "headers":{
             "Content-Type":"application/json",
-            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+            "Authorization":`Bearer ${API_KEY}`
             //"X-Request-Id":""
         },
         "data":JSON.stringify(projectInfo)
@@ -119,7 +97,7 @@ function getAllProjects(){
         "method":"GET",
         "headers":{
             "Content-Type":"application/json",
-            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+            "Authorization":`Bearer ${API_KEY}`
             
         }
         
@@ -137,7 +115,7 @@ function getAllProjects(){
         
 };
 
-function getOneProject(targetId){
+function getOneProject(targetId,API_KEY){
     
    
     var settings =
@@ -146,7 +124,7 @@ function getOneProject(targetId){
         "method":"GET",
         "headers":{
             "Content-Type":"application/json",
-            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+            "Authorization":`Bearer ${API_KEY}`
         }
 
     }
@@ -156,7 +134,7 @@ function getOneProject(targetId){
 
 }
 
-function createNewTask(taskName){
+function createNewTask(taskName,API_KEY){
     var taskInfo = {
         "content":taskName,
         
@@ -170,7 +148,7 @@ function createNewTask(taskName){
         "method":"POST",
         "headers":{
             "Content-Type":"application/json",
-            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+            "Authorization":`Bearer ${API_KEY}`
         },
         "data":JSON.stringify(taskInfo)
     }
@@ -178,7 +156,7 @@ function createNewTask(taskName){
         console.log(response);
     });
 }
-function deleteProject(deleteId){
+function deleteProject(deleteId,API_KEY){
     var settings = {
         "url":`https://api.todoist.com/rest/v1/projects/${deleteId}`,
         "method":"DELETE",
@@ -188,7 +166,7 @@ function deleteProject(deleteId){
             }
         },
         "headers":{
-            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+            "Authorization":`Bearer ${API_KEY}`
         }
     }
     $.ajax(settings).done(function(response){
@@ -201,7 +179,7 @@ function deleteProject(deleteId){
 
 
 
-function updateActiveProject(pId,updatedName){
+function updateActiveProject(pId,updatedName,API_KEY){
     updatedInfo = {
         "name":updatedName
     }
@@ -210,7 +188,7 @@ function updateActiveProject(pId,updatedName){
         "method":"POST",
         "headers":{
             "Content-Type": "application/json",
-            "Authorization":"Bearer 8b98c0d21ae1549ee1f64ae938064219c3c10a22"
+            "Authorization":`Bearer ${API_KEY}`
         },
         
         "data":JSON.stringify(updatedInfo)
@@ -221,72 +199,18 @@ function updateActiveProject(pId,updatedName){
     });
 }
 
-function userSignUp(newUsername,newPassword){
-    var userdata={
-        "username":newUsername,
-        "password":newPassword,
-    }   
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records",
-        "method": "POST",
-        "headers": {
-          "content-type": "application/json",
-          "x-apikey": "601fe54e3f9eb665a168922e",
-          "cache-control": "no-cache"
-        },
-        "data":JSON.stringify(userdata)
-      }
-      
-      $.ajax(settings).done(function (response) {
-        console.log(response);
-      });
-}
 
-function userLogin($loginUsername,$loginPassword){
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records",
-        "method": "GET",
-        "headers": {
-          "content-type": "application/json",
-          "x-apikey": "601fe54e3f9eb665a168922e",
-          "cache-control": "no-cache"
-        }
-      }
-      
-      $.ajax(settings).done(function (response) {
-        console.log(response);
-        console.log(response.length);
-        let userFound = 0;
-        for(var i = 0;i<response.length;i++){
-            let user = response[i];
-            if(user.username ===$loginUsername  && user.password===$loginPassword){
-                alert("login successful!");
-                userFound += 1; //value becomes zero after user is found
-                break;              
-            }
-            else if(userFound !== 1 && i === response.length - 1) {      //to avoid for loop repitition for each un-matching record
-                alert("username or password is incorrect!Please check again!");
-            }    
-
-        }
-      });
-
-}
 
 
 /*============  NEW FUNCTIONS FOR TASKS REST API ADDED BELOW==========================*/
 
-function getOneTask(activeTask){          //get tasks only works for ACTIVE tasks
+function getOneTask(activeTask,API_KEY){          //get tasks only works for ACTIVE tasks
     var settings={
         "url":`https://api.todoist.com/rest/v1/tasks/${activeTask}`,
         "method":"GET",
         "headers":{
             "Content-Type":"application/json",
-            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+            "Authorization":`Bearer ${API_KEY}`
         }
     }
     $.ajax(settings).done(function(response){
@@ -294,7 +218,7 @@ function getOneTask(activeTask){          //get tasks only works for ACTIVE task
     });
 }
 
-function deleteTask(deletingTask){          //get tasks only works for ACTIVE tasks
+function deleteTask(deletingTask,API_KEY){          //get tasks only works for ACTIVE tasks
     var settings={
         "url":`https://api.todoist.com/rest/v1/tasks/${deletingTask}`,
         "method":"DELETE",
@@ -305,7 +229,7 @@ function deleteTask(deletingTask){          //get tasks only works for ACTIVE ta
         },
         "headers":{
             
-            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+            "Authorization":`Bearer ${API_KEY}`
         }
     }
     $.ajax(settings).done(function(response){
@@ -314,7 +238,7 @@ function deleteTask(deletingTask){          //get tasks only works for ACTIVE ta
     });
 }
 
-function updateTask(updatingTaskId,updatedContent){
+function updateTask(updatingTaskId,updatedContent,API_KEY){
     var updatedInfo ={
         "content":updatedContent
     }
@@ -328,7 +252,7 @@ function updateTask(updatingTaskId,updatedContent){
         },
         "headers":{
             "Content-Type":"application/json",
-            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+            "Authorization":`Bearer ${API_KEY}`
         },
         "data":JSON.stringify(updatedInfo)
     }
@@ -347,7 +271,7 @@ function closeTask(closingTaskId){
             }
         },
         "headers":{
-            "Authorization":"Bearer 69240a14af7f11d150b64bc00c5558cba3741041"
+            "Authorization":`Bearer ${API_KEY}`
         }
     }
     $.ajax(settings).done(function(response){
