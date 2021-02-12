@@ -139,3 +139,16 @@ button.dropdown-toggle{
     left: 90px;
     z-index: 2;
 }
+
+.project-color{
+    border-radius: 50%;
+    width:10px;
+    height:10px;
+    display:inline;
+    background-color: #1491AA;
+}
+.project-item{
+    padding:15px 10px;
+    display: block;
+    border-top: 2px solid #7a737a;
+}
