@@ -1,12 +1,43 @@
+:root{
+    --nav-width: 92px;
+    --first-color: #0C5DF4;
+    --bg-color: #1491AA;
+    --sub-color: #B6CEFC;
+    --white-color: #FFF;
+  
+    --body-font: 'Poppins', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+  
+    --z-fixed: 0;
+}
+*, ::before, ::after{
+  box-sizing: border-box;
+}
 body{
     font-family: 'Roboto', sans-serif;
     background-color: #D2F5EC;
+    position: relative;
+    margin: 0;
+    padding: 2rem 0 0 6.75rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
 }
 h1{
-    font-family: 'Roboto',sans-serif;
+  margin: 0;
+  font-family: 'Roboto',sans-serif;
 }
 h2{
     font-family: 'Monsteratt', sans-serif;
+}
+ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a{
+  text-decoration: none;
 }
 /*Navbar CSS*/
 .navlist{
@@ -17,7 +48,7 @@ h2{
 .navbarbrand{
     margin-left: 140px;
     font-size: 30px;
-    font-weight: bold;
+    font-weight: 500
 }
 .navlink{
     color: white;
@@ -98,57 +129,97 @@ form.login-form div.form-group,form.sign-up-form div.form-group{
 button.dropdown-toggle{
     padding: 5px ;
 }
-/*Main interface topnavigation*/
-.navicons{
-    height: 25px;
-    width: 25px;
-}
-.iconsnav li{
-    padding-left: 20px;
-}
-.navigator{
-    background-color:#1491AA;
-}
-/*Main interface sidenavigation*/
-#navmenu{
-    width: 250px;
-    height: 100vh;
+.l-navbar{
     position: fixed;
-    right: -250px;
     top: 0;
-    background: #1491AA;
-    z-index: 2;
-    transition: 0.5s;
+    left: 0;
+    width: var(--nav-width);
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--white-color);
+    padding: 1.5rem 1.5rem 2rem;
+    transition: .5s;
+    z-index: var(--z-fixed);
 }
-.sidenavulli{
-    list-style: none;
-    margin: 50px 20px;
+.nav1{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
 }
-.sidenavullia{
-    text-decoration: none;
+.nav__brand{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.nav__toggle{
+    font-size: 1.25rem;
+    padding: .75rem;
+    cursor: pointer;
+}
+.nav__logo{
+    color: var(--white-color);
+    font-weight: 600;
+}
+.nav__link{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: .75rem;
+    padding: .75rem;
+    color: var(--white-color);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+    cursor: pointer;
+}
+.addproj{
+    position: relative;
+    top: 5px;
+    padding-left: 20px;
+    font-size: 1.25rem;
+}
+.addtask{
+    position: relative;
+    top: 5px;
+    left: 15px;
+    padding-left: 20px;
+    font-size: 1.25rem;
+}
+.nav__link:hover{
+    background-color: var(--first-color);
     color: white;
-    position: relative;
-    top: 40px;
-    left: 40px;
 }
-#menuicon{
-    width: 32px;
-    height: 32px;
-    position: relative;
-    bottom: 37.5px;
-    left: 90px;
-    z-index: 2;
+.nav__icon{
+    font-size: 1.25rem;
 }
-
-.project-color{
-    border-radius: 50%;
-    width:10px;
-    height:10px;
-    display:inline;
+.nav__name{
+    font-size:var(--small-font-size);
+}
+.expander{
+    width: calc(var(--nav-width) + 9.25rem);
+}
+.body-pd{
+    padding: 2rem 0 0 16rem;
+}
+.active{
+    background-color: var(--first-color);
+}
+/*Top Navigation*/
+.topbanner{
+    margin-top: 0;
     background-color: #1491AA;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    bottom: 45px;
+    border-radius: 6px;
 }
-.project-item{
-    padding:15px 10px;
-    display: block;
-    border-top: 2px solid #7a737a;
+.topbannertext{
+    padding-left: 20px;
+    padding-top: 15px;
+    color: white;
 }
