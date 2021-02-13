@@ -34,9 +34,12 @@ We have implemented a three-tier system.
 Through which users can gain points for completing objectives,assigned to them
 Points : Anti-Procastination Points **_(APPoints)_**
 **The tiers are named after dinosaurs**
-[x] **Tier 1**: T-Rex Tyson **_(>10000 APPoints)_**
-[x] **Tier 2**: Velociraptor Vin **_(>6000 APPoints)_**
-[x] **Tier 3**: Seismosaurus Simon **_(>2000 APPoints)_**
+Tier No.|Title |Points requirements|
+--------|------|-------------------|
+
+**Tier 1**|T-Rex Tyson |**_(>10000 APPoints)_**
+**Tier 2**| Velociraptor Vin |**_(>6000 APPoints)_**
+**Tier 3**| Seismosaurus Simon |**_(>2000 APPoints)_**
 
 ### Projects
 * Create a new project (e.g.Exam preparation,wedding Plans etc.)
@@ -62,6 +65,7 @@ Points : Anti-Procastination Points **_(APPoints)_**
 4. Lottie Animations(Adobe After Effects)
 5. Visual Studio Code
 6.Restdb.io(NoSQL database)
+7.ionicons.com*for navbar icons*
 
 # Design Rationale
 ## App name
@@ -70,3 +74,9 @@ Points : Anti-Procastination Points **_(APPoints)_**
 ## Logo
 * A small dinosaur was illustrated to match with the app name's 2nd word "-Dino" .It is drawn with a pen being held to tell users about the 
 base functionality of the app - jotting/recording down tasks,reminders.![orDino App Logo](../assets/drawing.png)
+## Side Navbar(main.html)
+Responsive side navbar to navigate easily between
+* Add Project/Tasks
+* Inbox:Main page displaying all records of projects & task
+* Log Out
+*Reason:To improve User experience*
