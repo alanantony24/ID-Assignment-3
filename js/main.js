@@ -1,5 +1,6 @@
 var API_KEY =localStorage.getItem("API_KEY");//global api-key modified in ajax for general use
 $(document).ready(function(){
+    displayName() //load first when ready
     console.log("API-KEY is:" + API_KEY);
     var username = localStorage.getItem('User');
     var $dropdown = $('div.dropdown').children().first();
@@ -10,13 +11,26 @@ $(document).ready(function(){
     $avatar = $dropdown.children().first(); 
     $avatar.addClass('avatar'); //styling the user avatar 
 
-
+    1
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
     // var $projectsTab = document.querySelector("#navmenu ul li:nth-child(3) a");
     // $projectsTab.addEventListener("hover",function(){
     //     alert("yoo");
     //     getAllProjects();
     // },false);
+    var $inboxTab = $('nav.nav1').children().children().eq(1).children().first();
+    var clickCount = 0;  //click variable to make sure content doesn't append
+    $inboxTab.on("focus",function(){
+        clickCount += 1;
+        if(clickCount == 1){
+            getAllProjects(colorArray);
+        }
+        
+    })
+    $inboxTab.off("focus",function(){
+        
+        clickCount = 0; //reset
+    })
 });
 var logOutContent =  `
 <div class ="row justify-content-center align-self-center">
@@ -62,7 +76,7 @@ var colorArray =
         49:"#ccac93"
     }
 function getAllProjects(colorArray){
-    var content = "";
+    var content = '<div class="accordion accordion-flush" id="accordionFlushExample"></div>';
     var settings = {
         "url":"https://api.todoist.com/rest/v1/projects",
         "method":"GET",
@@ -85,15 +99,34 @@ function getAllProjects(colorArray){
             if(response[i].hasOwnProperty("color")){
                 color = response[i].color;
             }
-            content+=`<div class = "project-item"> <span>${response[i].name}</span>
-            <span class = "project-color"></span></div>`;
+            content += `<div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              ${response[i].name}
+              </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+              <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+              <ion-icon name="create-outline"></ion-icon>
+              <ion-icon name="trash-outline"></ion-icon>
+              </div>
+            </div>
+          </div>`
+            // content+=`<div class = "project-item"> <span><h4>${response[i].name}</h4></span>
+            // <span class = "project-color"></span></div>`;
             if(color !== ""){
                 $('.project-color').css('background-color',`${colorArray[color]}`.toString());
                 console.log(colorArray[color]);
             }
         }
-        var projectList = $('section#projects');
-        projectList.html(content);
+        
+
+        var projectList = $('body').children('section').children().eq(3);
+        projectList.append(content);
+        if($('div.accordion-body').children().eq(1).attr('name')==="create-outline"){
+            alert("raaaar");
+        }
     })  
 };
 //Side Anvigation and Banner
@@ -139,3 +172,7 @@ function logOutUser(logOutContent){
 function redirectToHome(){
     window.location.replace("index.html");
 }
+function displayName(){
+    $('h4.topbannertext').last().text(`Welcome, ${localStorage.getItem('User')}!`);
+}
+
