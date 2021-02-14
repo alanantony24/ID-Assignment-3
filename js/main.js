@@ -10,8 +10,6 @@ $(document).ready(function(){
     $dropdown.prepend(`<div>${firstChar}</div>`);
     $avatar = $dropdown.children().first(); 
     $avatar.addClass('avatar'); //styling the user avatar 
-
-    1
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
     // var $projectsTab = document.querySelector("#navmenu ul li:nth-child(3) a");
     // $projectsTab.addEventListener("hover",function(){
@@ -32,26 +30,7 @@ $(document).ready(function(){
         clickCount = 0; //reset
     })
 });
-var logOutContent =  `
-<div class ="row justify-content-center align-self-center">
-<div class = "col-xs-10 col-md-4">
-    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_0fwl68.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player></div>
-</div>
-<div class ="row justify-content-center align-self-center">
-<div class = "col-xs-10 col-md-4">
-    Please wait while we log you out . . .
-</div>
-</div>`; //loading animation content
-function logOutUser(logOutContent){
-    $('section.ordino-dashboard').remove();
-    $('body').prepend(logOutContent);
-    setTimeout(redirectToHome,2500)
-}
-function redirectToHome(){
-    window.location.replace("index.html");
-}
 /*===================================SIDE NAVBAR AJAX FUNCTIONS====================================================*/
-
 var colorArray = 
     {
         30:"#b8256f",
@@ -75,6 +54,7 @@ var colorArray =
         48:"#b8b8b8",
         49:"#ccac93"
     }
+//Function for getting the colour
 function getAllProjects(colorArray){
     var content = '<div class="accordion accordion-flush" id="accordionFlushExample"></div>';
     var settings = {
@@ -85,7 +65,6 @@ function getAllProjects(colorArray){
             "Authorization":`Bearer ${API_KEY}`
             
         }
-        
     };
     $.ajax(settings).done(function(response){
         console.log(response);
@@ -141,6 +120,7 @@ const showMenu = (toggleId, navbarId, bodyId)=>{
         })
     }
 }
+//Giving blue colour to active link
 showMenu('nav-toggle', 'navbar', 'body-pd')
 const linkcolor = document.querySelectorAll('.nav__link');
 function colorLink(){
@@ -153,16 +133,14 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
 //Log OUt
-var logOutContent =  `
-<div class ="row justify-content-center">
-<div class = "col-xs-10 col-md-4">
-    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_0fwl68.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player></div>
+var logOutContent = `<section>
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+        <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_0fwl68.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+        <h6 class="text-center">Logging you out......Adios :)</h6>
+    </div>
 </div>
-<div class ="row justify-content-center">
-<div class = "col-xs-10 col-md-4">
-    Please wait while we log you out . . .
-</div>
-</div>`; //loading animation content
+</section>`; //loading animation content
 function logOutUser(logOutContent){
   let $mainPage =$('body#body-pd').children().first(); 
   $mainPage.remove();

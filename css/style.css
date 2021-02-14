@@ -1,3 +1,4 @@
+/*Initialing vairables*/
 :root{
     --nav-width: 92px;
     --first-color: #0C5DF4;
@@ -11,6 +12,7 @@
   
     --z-fixed: 0;
 }
+/*Common CSS selectors*/
 *, ::before, ::after{
   box-sizing: border-box;
 }
@@ -39,7 +41,7 @@ ul{
 a{
   text-decoration: none;
 }
-/*Navbar CSS*/
+/*index.html Navbar CSS*/
 .navlist{
     margin-left: auto;
     font-size: 15px;
@@ -57,7 +59,7 @@ a{
     padding-left: 30px;
     padding-right: 30px;
 }
-/*Landing Page CSS*/
+/*index.html Page CSS*/
 .navitem{
     padding-right: 20px;
 }
@@ -81,11 +83,11 @@ a{
     bottom: 90px;
     left: 30px;
 }
-/*Main Program CSS*/
+/*main.hrml Program CSS*/
 .main{
     padding-top: 20px;
 }
-/*Login Modal CSS*/
+/*login.html Login Modal CSS*/
 .login-register-wrapper{
     padding: 30px 10px;
     border-radius: 20px;
@@ -110,11 +112,11 @@ form.login-form div.form-group,form.sign-up-form div.form-group{
 .logo{
     padding: 0px 40%;
 }
-/*Hide things from Landing Page*/
+/*Hide things from Landing Page(inde.html) should remove before submission*/
 .main{
     display: none;
 }
-/*==============================================================================================================================================*/
+/*CSS for the logout modal(should decide whether to delete this part because we r not using it in the mian design right?)*/
 .avatar{                                        
     border-radius: 50%;
     border:2px solid #fff;
@@ -129,6 +131,7 @@ form.login-form div.form-group,form.sign-up-form div.form-group{
 button.dropdown-toggle{
     padding: 5px ;
 }
+/*main.html Side Navigation CSS Should credit utuber at end*/
 .l-navbar{
     position: fixed;
     top: 0;
@@ -209,7 +212,7 @@ button.dropdown-toggle{
 .active{
     background-color: var(--first-color);
 }
-/*Top Navigation*/
+/*main.html Top banner to display name*/
 .topbanner{
     margin-top: 0;
     background-color: #1491AA;
