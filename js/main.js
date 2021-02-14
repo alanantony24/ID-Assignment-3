@@ -16,26 +16,7 @@ $(document).ready(function(){
     //     getAllProjects();
     // },false);
 });
-// var logOutContent =  `
-// <div class ="row justify-content-center align-self-center">
-// <div class = "col-xs-10 col-md-4">
-//     <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_0fwl68.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player></div>
-// </div>
-// <div class ="row justify-content-center align-self-center">
-// <div class = "col-xs-10 col-md-4">
-//     Please wait while we log you out . . .
-// </div>
-// </div>`; //loading animation content
-// function logOutUser(logOutContent){
-//     $('section.ordino-dashboard').remove();
-//     $('body').prepend(logOutContent);
-//     setTimeout(redirectToHome,2500)
-// }
-// function redirectToHome(){
-//     window.location.replace("index.html");
-// }
 /*===================================SIDE NAVBAR AJAX FUNCTIONS====================================================*/
-
 var colorArray = 
     {
         30:"#b8256f",
@@ -59,6 +40,7 @@ var colorArray =
         48:"#b8b8b8",
         49:"#ccac93"
     }
+//Function for getting the colour
 function getAllProjects(colorArray){
     var content = "";
     var settings = {
@@ -69,7 +51,6 @@ function getAllProjects(colorArray){
             "Authorization":`Bearer ${API_KEY}`
             
         }
-        
     };
     $.ajax(settings).done(function(response){
         console.log(response);
@@ -106,6 +87,7 @@ const showMenu = (toggleId, navbarId, bodyId)=>{
         })
     }
 }
+//Giving blue colour to active link
 showMenu('nav-toggle', 'navbar', 'body-pd')
 const linkcolor = document.querySelectorAll('.nav__link');
 function colorLink(){
