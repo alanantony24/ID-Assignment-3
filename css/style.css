@@ -230,6 +230,11 @@ button.dropdown-toggle{
 
 
 /*================================================INBOX TAB==================================================*/
+section#inbox h3{
+    padding:10px;
+    border-bottom:1px solid #534a4af6;
+    width:20%;
+}
 .project-item{
     border-top: 2px solid rgb(87, 88, 88);
     padding: 10px;
