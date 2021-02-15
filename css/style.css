@@ -117,20 +117,6 @@ form.login-form div.form-group,form.sign-up-form div.form-group{
     display: none;
 }
 /*CSS for the logout modal(should decide whether to delete this part because we r not using it in the mian design right?)*/
-.avatar{                                        
-    border-radius: 50%;
-    border:2px solid #fff;
-    height: 30px;
-    width: 30px;
-    display: inline-block;
-    text-align: center;
-    align-self: center;
-    color: #000;
-    margin: 5px;
-}
-button.dropdown-toggle{
-    padding: 5px ;
-}
 /*main.html Side Navigation CSS Should credit utuber at end*/
 .l-navbar{
     position: fixed;
@@ -234,6 +220,11 @@ section#inbox h3{
     padding:10px;
     border-bottom:1px solid #534a4af6;
     width:20%;
+    display: none;
+    animation: name duration timing-function delay iteration-count direction fill-mode;
+}
+.three-dots{
+    justify-self: end;
 }
 .project-item{
     border-top: 2px solid rgb(87, 88, 88);
@@ -259,6 +250,7 @@ div.accordion-body span:before{
     top:-65px;
     left:-20px;
     opacity:0;
+    z-index: 2;
     transition: all 0.5s ease;
 }
 div.accordion-body span button::before{
@@ -295,3 +287,30 @@ div.accordion-body span:hover:before,div.accordion-body span:hover:after{
     opacity: 1;
     transition: all 0.5s ease;
 }
+.dropdown-menu ion-icon{
+    color:red;
+    padding: 5px;
+    font-size:20pt;
+}
+.dropdown-menu {
+    text-align: justify;
+    line-height: 20px;
+}
+ion-icon{
+    font-size: 30px;
+}
+.task-box{
+    border-bottom: 1px solid red;
+    padding:20px 0px;
+}
+.task-box> div{
+    padding:0px 0px 20px 20px;
+}
+.task-box span>span{
+    padding:10px;
+    text-align: justify;
+    padding-left:20px!important;
+}
+.dropdown-toggle::after {   /*hide the content*/
+    content: none; 
+} 

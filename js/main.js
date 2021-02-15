@@ -2,14 +2,6 @@ var API_KEY =localStorage.getItem("API_KEY");//global api-key modified in ajax f
 $(document).ready(function(){
     displayName() //load first when ready
     console.log("API-KEY is:" + API_KEY);
-    var username = localStorage.getItem('User');
-    var $dropdown = $('div.dropdown').children().first();
-    var avatarDiv = `<div style = "display:inline">${username}</div>  `;
-    $dropdown.html(avatarDiv);
-    var firstChar = username[0].toUpperCase();
-    $dropdown.prepend(`<div>${firstChar}</div>`);
-    $avatar = $dropdown.children().first(); 
-    $avatar.addClass('avatar'); //styling the user avatar 
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
     var $inboxTab = $('nav.nav1').children().children().eq(1).children().first();
     var clickCount = 0;  //click variable to make sure content doesn't append
@@ -17,6 +9,9 @@ $(document).ready(function(){
         clickCount += 1;
         if(clickCount == 1){
             getAllProjects(colorArray);
+            getActiveTasks(API_KEY);//display active tasks in DOM
+            $('section#inbox h3').show(1000);
+            $('section#inbox span a').attr("href","/comment-page");
         }
         
     })
@@ -135,6 +130,31 @@ function deleteProject(deleteId,API_KEY){
     });
 }
 
+
+function getActiveTasks(API_KEY){
+    var tasks ='';
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/tasks`,
+        "method":"GET",
+        "headers":{
+            "Authorization":`Bearer ${API_KEY}`
+        }
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+        for(let i =0;i<response.length;i++){
+            tasks+=`<div class = "task-box"><div>
+            <h4>${response[i].content}</h4></div><span>
+            <span><ion-icon name="calendar-outline"></ion-icon>${response[i].due.string}</span>
+            <span><a><ion-icon name="chatbox-outline"></ion-icon>Comments</a></span></span>`
+
+            tasks+='<span class = "three-dots"></span></div>'    //add the 'options' dots at the side using js later
+        }
+        $('div#tasks').append(tasks);
+        $('.dropdown').detach().insertAfter('.three-dots');
+    });
+
+}
 //Side Anvigation and Banner
 const showMenu = (toggleId, navbarId, bodyId)=>{
     const toggle = document.getElementById(toggleId),
