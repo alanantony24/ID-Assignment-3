@@ -11,11 +11,6 @@ $(document).ready(function(){
     $avatar = $dropdown.children().first(); 
     $avatar.addClass('avatar'); //styling the user avatar 
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
-    // var $projectsTab = document.querySelector("#navmenu ul li:nth-child(3) a");
-    // $projectsTab.addEventListener("hover",function(){
-    //     alert("yoo");
-    //     getAllProjects();
-    // },false);
     var $inboxTab = $('nav.nav1').children().children().eq(1).children().first();
     var clickCount = 0;  //click variable to make sure content doesn't append
     $inboxTab.on("focus",function(){
@@ -29,8 +24,20 @@ $(document).ready(function(){
         
         clickCount = 0; //reset
     })
+    /*==========================================INBOX TAB EVENT LISTENERS============================================*/
+    var $deleteIcon = document.querySelectorAll('div.accordion-body button#delete');
+/*     $deleteIcon.addEventListener('focus',function(){
+        alert("hello");
+        // deleteProject(,API_KEY);
+        // getAllProjects(colorArray);//call function again to reset the project List in DOM 
+    },false);       
+ */ var $editIcon = $('div.accordion-body button#update');
+    $editIcon.on("click",function(e){
+        e.preventDefault();
+        alert('sup')
+    });
 });
-/*===================================SIDE NAVBAR AJAX FUNCTIONS====================================================*/
+/*===================================SIDE NAVBAR & AJAX FUNCTIONS====================================================*/
 var colorArray = 
     {
         30:"#b8256f",
@@ -79,16 +86,16 @@ function getAllProjects(colorArray){
                 color = response[i].color;
             }
             content += `<div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+            <h2 class="accordion-header" id="flush-heading${i+1}">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
               ${response[i].name}
               </button>
             </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div id="flush-collapse${i+1}" class="accordion-collapse collapse" aria-labelledby="flush-heading${i+1}" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body">
-              <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-              <ion-icon name="create-outline"></ion-icon>
-              <ion-icon name="trash-outline"></ion-icon>
+              <span data-tooltip="Add comment"><button id="comment"><ion-icon name="chatbox-ellipses-outline"></ion-icon></button></span>
+              <span data-tooltip="Edit"><button id="update"><ion-icon name="create-outline"></ion-icon></button></span>
+              <span data-tooltip="Delete"><button id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
               </div>
             </div>
           </div>`
@@ -100,14 +107,34 @@ function getAllProjects(colorArray){
             }
         }
         
-
-        var projectList = $('body').children('section').children().eq(3);
+        
+        var projectList = $('body').children('section').children().eq(3).children('div#projects');
         projectList.append(content);
-        if($('div.accordion-body').children().eq(1).attr('name')==="create-outline"){
-            alert("raaaar");
-        }
     })  
 };
+
+
+function deleteProject(deleteId,API_KEY){
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/projects/${deleteId}`,
+        "method":"DELETE",
+        "statusCode":{
+            204:function(){
+                alert(`Project Id:${deleteId} has been deleted!`);
+            }
+        },
+        "headers":{
+            "Authorization":`Bearer ${API_KEY}`
+        }
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+        if(response  === undefined){
+            alert(`Project ID:${deleteId} has been deleted successfully.`);
+        }
+    });
+}
+
 //Side Anvigation and Banner
 const showMenu = (toggleId, navbarId, bodyId)=>{
     const toggle = document.getElementById(toggleId),
@@ -153,4 +180,3 @@ function redirectToHome(){
 function displayName(){
     $('h4.topbannertext').last().text(`Welcome, ${localStorage.getItem('User')}!`);
 }
-
