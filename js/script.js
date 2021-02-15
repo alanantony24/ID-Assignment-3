@@ -156,26 +156,6 @@ function createNewTask(taskName,API_KEY){
         console.log(response);
     });
 }
-function deleteProject(deleteId,API_KEY){
-    var settings = {
-        "url":`https://api.todoist.com/rest/v1/projects/${deleteId}`,
-        "method":"DELETE",
-        "statusCode":{
-            204:function(){
-                alert(`Project Id:${deleteId} has been deleted!`);
-            }
-        },
-        "headers":{
-            "Authorization":`Bearer ${API_KEY}`
-        }
-    }
-    $.ajax(settings).done(function(response){
-        console.log(response);
-        if(response  === undefined){
-            alert(`Project ID:${deleteId} has been deleted successfully.`);
-        }
-    });
-}
 
 
 
@@ -275,6 +255,56 @@ function closeTask(closingTaskId){
         }
     }
     $.ajax(settings).done(function(response){
+
+    });
+}
+function createSection(sectionName,projectID,API_KEY){
+    var sectionInfo = {
+        "project_id":`${projectID}`,
+        "name":`${sectionName}`
+    }
+    var settings = {
+
+        "url":'https://api.todoist.com/rest/v1/sections',
+        "method":"POST",
+        "headers":{
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY}`
+        },
+        "data":JSON.stringify(sectionInfo)
+    }
+    $.ajax(settings).done(function(){
+
+    });
+}
+
+function deleteSection(sectionId,API_KEY){
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/sections/${sectionId}`,
+        "method":"DELETE",
+        "headers":{
+            "Authorization": `Bearer ${API_KEY}`
+        }
+    }
+    $.ajax(settings).done(function(){
+
+    });
+}
+function updateSection(sectionID,newSectionName,API_KEY){
+    var updateInfo = {
+        "name":`${sectionName}`
+    }
+    var settings = {
+
+        "url":`https://api.todoist.com/rest/v1/sections/${sectionID}`,
+        "method":"POST",
+        "headers":{
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY}`
+        },
+        "data":JSON.stringify(updateInfo)
+    }
+    $.ajax(settings).done(function(){
 
     });
 }
