@@ -80,3 +80,8 @@ Responsive side navbar to navigate easily between
 * Inbox:Main page displaying all records of projects & task
 * Log Out
 *Reason:To improve User experience*
+
+# Credits and Acknowledgements
+* [W3Schools](w3schools.com)
+## Youtubers(Channels)
+  * Coding Market
