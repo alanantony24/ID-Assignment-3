@@ -229,15 +229,64 @@ button.dropdown-toggle{
 }
 
 
-/*================================================MAILBOX TAB==================================================*/
+/*================================================INBOX TAB==================================================*/
 .project-item{
     border-top: 2px solid rgb(87, 88, 88);
     padding: 10px;
 }
-
-div.accordion-body ion-icon{
+div.accordion-body span{
+    position: relative;
+}
+div.accordion-body span ion-icon{
     display: inline-block;
     padding:10px;
-    
     font-size:20pt;
+}
+div.accordion-body span:before{
+    content: attr(data-tooltip);
+    background: #000;
+    color: #fff;
+    border-radius: 5px;
+    width: 110px;
+    height:25px;
+    text-align: center;
+    position: absolute;
+    top:-65px;
+    left:-20px;
+    opacity:0;
+    transition: all 0.5s ease;
+}
+div.accordion-body span button::before{
+    border-style: none;
+    border-color: transparent;
+    padding: 0;
+    background: transparent;
+    transition: center 2.0s ease-in;
+    
+}
+div.accordion-body span button:active{
+    color: #fff;
+    background: rgb(207, 189, 189);
+
+}
+
+div.accordion-body span button::after{
+    transition: center 0.5s ease-out;
+}
+div.accordion-body span::after{ /*triangle for tooltip*/
+    content: "";
+    position: absolute;
+    top:-40px;
+    right:15px;
+    border-left:15px solid transparent;
+    border-right:15px solid transparent;
+    border-top:15px solid black;
+    border-bottom:15px solid transparent;
+    opacity:0;
+    transition: all 0.5s ease;
+}
+
+div.accordion-body span:hover:before,div.accordion-body span:hover:after{
+    opacity: 1;
+    transition: all 0.5s ease;
 }
