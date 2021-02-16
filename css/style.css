@@ -149,10 +149,6 @@ form.login-form div.form-group,form.sign-up-form div.form-group{
     padding: .75rem;
     cursor: pointer;
 }
-.nav__logo{
-    color: var(--white-color);
-    font-weight: 600;
-}
 .nav__link{
     display: grid;
     grid-template-columns: max-content max-content;
@@ -203,17 +199,19 @@ form.login-form div.form-group,form.sign-up-form div.form-group{
     margin-top: 0;
     background-color: #1491AA;
     padding-top: 10px;
-    padding-bottom: 10px;
     position: relative;
-    bottom: 45px;
+    bottom: 95px;
     border-radius: 6px;
 }
 .topbannertext{
     padding-left: 20px;
-    padding-top: 15px;
+    padding-top: 55px;
     color: white;
 }
-
+.topbannername{
+    position: relative;
+    top: 10px;
+}
 
 /*================================================INBOX TAB==================================================*/
 section#inbox h3{
