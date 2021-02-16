@@ -21,7 +21,7 @@
             <h4 class="topbannertext"><img src="assets/drawing.png" height="45px" width="45px" alt="logo">OrDino</h4>
           </div>
           <div class="col-sm-6 justify-content-end">
-            <h4 class="topbannertext text-end" style="padding-right: 20px;"></h4>
+            <h4 class="topbannertext topbannername text-end" style="padding-right: 20px;"></h4>
           </div>
         </div>
       </div>
@@ -33,7 +33,6 @@
           <div>
             <div class="nav__brand">
               <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-              <a href="#" class="nav__logo ordinologo">OrDino</a>
             </div>
             <div class="nav__list">
               <a href="#inbox" class="nav__link active">
@@ -81,7 +80,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary">Add Project</button>
+              <button type="button" id="addprojbtn" class="btn btn-primary">Add Project</button>
             </div>
           </div>
         </div>
@@ -117,37 +116,20 @@
                   <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
                   <label class="form-check-label" for="inlineRadio2">4</label>
                 </div>
+                <br>
+                <label for="due_datetime">Enter date & time:</label>
+                <input type="date" name="due_datetime" id="task_datetime" required>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary">Add Task</button>
+              <button type="button" id="addtask" class="btn btn-primary">Add Task</button>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section id="inbox">
-      <div id="projects">
-        <h3>Projects</h3>
-      </div>
-      <div id="tasks">
-        <h3>Tasks</h3>
-        <span class="dropdown extra-options">
-          <button class="btn btn-white dropdown-toggle" type="button" style ="opacity:0;" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-            <ion-icon name="ellipsis-vertical-outline" role="img" class="md hydrated" aria-label="ellipsis vertical outline"></ion-icon>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <li><button class="dropdown-item" type="button"><ion-icon name="trash-outline"></ion-icon>Delete Task</button></li>
-            <li><button class="dropdown-item" type="button"><ion-icon name="refresh-outline"></ion-icon>Reschedule Task</button></li>
-            <li><button class="dropdown-item" type="button"><ion-icon name="star-outline"></ion-icon>Add to Favorites</button></li>
-          </ul>
-        </span>
 
-        
-            
-      </div>
-    </section>
 
     <section id = "comment-modal">
       <div class="modal-dialog modal-dialog-centered">
@@ -167,6 +149,42 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary">Add Comments </button>
+
+    <!--Panels for displaying Project and task details-->
+    <section id="inbox">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4>Projects to be done</h4>
+            <div id="getallproj">
+              <div id="projects">
+                <h3>Projects</h3>
+              </div>
+        
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <h4>Tasks to be done</h4>
+            <div id="getalltasks">
+              <div id="tasks">
+                <h3>Tasks</h3>
+                <span class="dropdown extra-options">
+                  <button class="btn btn-white dropdown-toggle" type="button" style ="opacity:0;" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ion-icon name="ellipsis-vertical-outline" role="img" class="md hydrated" aria-label="ellipsis vertical outline"></ion-icon>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button class="dropdown-item" type="button"><ion-icon name="trash-outline"></ion-icon>Delete Task</button></li>
+                    <li><button class="dropdown-item" type="button"><ion-icon name="refresh-outline"></ion-icon>Reschedule Task</button></li>
+                    <li><button class="dropdown-item" type="button"><ion-icon name="star-outline"></ion-icon>Add to Favorites</button></li>
+                  </ul>
+                </span>
+        
+                
+                    
+              </div>
+
+            </div>
+
           </div>
         </div>
       </div>
