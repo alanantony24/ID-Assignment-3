@@ -228,15 +228,15 @@ section#inbox h3{
     border-top: 2px solid rgb(87, 88, 88);
     padding: 10px;
 }
-div.accordion-body span{
+div.accordion-body.projectaccordion span{
     position: relative;
 }
-div.accordion-body span ion-icon{
+div.accordion-body.projectaccordion span ion-icon{
     display: inline-block;
     padding:10px;
     font-size:20pt;
 }
-div.accordion-body span:before{
+div.accordion-body.projectaccordion span:before{
     content: attr(data-tooltip);
     background: #000;
     color: #fff;
@@ -248,10 +248,10 @@ div.accordion-body span:before{
     top:-65px;
     left:-20px;
     opacity:0;
-    z-index: 2;
+    z-index: 5;
     transition: all 0.5s ease;
 }
-div.accordion-body span button::before{
+div.accordion-body.projectaccordion span button::before{
     border-style: none;
     border-color: transparent;
     padding: 0;
@@ -259,16 +259,16 @@ div.accordion-body span button::before{
     transition: center 2.0s ease-in;
     
 }
-div.accordion-body span button:active{
+div.accordion-body.projectaccordion span button:active{
     color: #fff;
     background: rgb(207, 189, 189);
 
 }
 
-div.accordion-body span button::after{
+div.accordion-body.projectaccordion span button::after{
     transition: center 0.5s ease-out;
 }
-div.accordion-body span::after{ /*triangle for tooltip*/
+div.accordion-body.projectaccordion span::after{ /*triangle for tooltip*/
     content: "";
     position: absolute;
     top:-40px;
@@ -281,7 +281,7 @@ div.accordion-body span::after{ /*triangle for tooltip*/
     transition: all 0.5s ease;
 }
 
-div.accordion-body span:hover:before,div.accordion-body span:hover:after{
+div.accordion-body.projectaccordion span:hover:before,div.accordion-body.projectaccordion span:hover:after{
     opacity: 1;
     transition: all 0.5s ease;
 }

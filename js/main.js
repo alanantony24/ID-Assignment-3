@@ -13,7 +13,6 @@ $(document).ready(function(){
             $('section#inbox h3').show(1000);
             $('section#inbox span a').attr("href","/comment-page");
         }
-        
     })
     $inboxTab.off("focus",function(){
         
@@ -56,7 +55,7 @@ var colorArray =
         48:"#b8b8b8",
         49:"#ccac93"
     }
-//Function for getting the colour
+//Function for getting the projects
 function getAllProjects(colorArray){
     var content = '<div class="accordion accordion-flush" id="accordionFlushExample"></div>';
     var settings = {
@@ -65,7 +64,6 @@ function getAllProjects(colorArray){
         "headers":{
             "Content-Type":"application/json",
             "Authorization":`Bearer ${API_KEY}`
-            
         }
     };
     $.ajax(settings).done(function(response){
@@ -81,19 +79,19 @@ function getAllProjects(colorArray){
                 color = response[i].color;
             }
             content += `<div class="accordion-item">
-            <h2 class="accordion-header" id="flush-heading${i+1}">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
-              ${response[i].name}
-              </button>
-            </h2>
-            <div id="flush-collapse${i+1}" class="accordion-collapse collapse" aria-labelledby="flush-heading${i+1}" data-bs-parent="#accordionFlushExample">
-              <div class="accordion-body">
-              <span data-tooltip="Add comment"><button id="comment"><ion-icon name="chatbox-ellipses-outline"></ion-icon></button></span>
-              <span data-tooltip="Edit"><button id="update"><ion-icon name="create-outline"></ion-icon></button></span>
-              <span data-tooltip="Delete"><button id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
+              <h2 class="accordion-header" id="flush-heading${i+1}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapses${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
+                ${response[i].name}
+                </button>
+              </h2>
+              <div id="flush-collapses${i+1}" class="accordion-collapse collapse" aria-labelledby="flush-heading${i+1}" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body projectaccordion">
+                <span data-tooltip="Add comment"><button id="comment"><ion-icon name="chatbox-ellipses-outline"></ion-icon></button></span>
+                <span data-tooltip="Edit"><button id="update"><ion-icon name="create-outline"></ion-icon></button></span>
+                <span data-tooltip="Delete"><button id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
+                </div>
               </div>
-            </div>
-          </div>`
+            </div>`
             // content+=`<div class = "project-item"> <span><h4>${response[i].name}</h4></span>
             // <span class = "project-color"></span></div>`;
             if(color !== ""){
@@ -101,10 +99,8 @@ function getAllProjects(colorArray){
                 console.log(colorArray[color]);
             }
         }
-        
-        
-        var projectList = $('body').children('section').children().eq(3).children('div#projects');
-        projectList.append(content);
+        var projectList = document.getElementById("getallproj");
+        projectList.innerHTML = content;
     })  
 };
 //Function for creating a project
@@ -135,6 +131,7 @@ function createNewProject(pName,API_KEY){ //POST method
         }
     })
 }
+//deleting a project
 function deleteProject(deleteId,API_KEY){
     var settings = {
         "url":`https://api.todoist.com/rest/v1/projects/${deleteId}`,
@@ -155,8 +152,44 @@ function deleteProject(deleteId,API_KEY){
         }
     });
 }
-
-
+//creating a task
+$('button#addtask').on("click",function(e){
+    e.preventDefault();
+    var taskName = $('input#inputTaskName').val();
+    createNewTask(taskName, API_KEY, dueDate);
+});
+var dueDate = ''
+$('input#task_datetime').on('blur',function(){
+    dueDate = $('input#task_datetime').val()
+    console.log(dueDate);
+    console.log(new Date(dueDate).toISOString());
+});
+function createNewTask(taskName,API_KEY, dueDate){
+    if(dueDate === '' || dueDate === undefined){
+        alert("Empty")
+    }
+    var taskInfo = {
+        "content":taskName,
+        "due_date": dueDate,
+        //"due_string": "tomorrow at 12:00", 
+        "due_lang": "en", 
+        "priority": 4
+    } 
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/tasks`,
+        "method":"POST",
+        "headers":{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${API_KEY}`
+        },
+        "data":JSON.stringify(taskInfo)
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+        alert("Success!!!")
+    });
+}
+//get active Task
 function getActiveTasks(API_KEY){
     var tasks ='';
     var settings = {
@@ -169,15 +202,25 @@ function getActiveTasks(API_KEY){
     $.ajax(settings).done(function(response){
         console.log(response);
         for(let i =0;i<response.length;i++){
-            tasks+=`<div class = "task-box"><div>
-            <h4>${response[i].content}</h4></div><span>
-            <span><ion-icon name="calendar-outline"></ion-icon>${response[i].due.string}</span>
-            <span><a><ion-icon name="chatbox-outline"></ion-icon>Comments</a></span></span>`
+            tasks+=`<div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading${i+1}">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
+              ${response[i].content}
+              </button>
+            </h2>
+            <div id="flush-collapse${i+1}" class="accordion-collapse collapse" aria-labelledby="flush-heading${i+1}" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+              <span><ion-icon name="calendar-outline"></ion-icon>${new Date (response[i].due.date).toDateString()}</span>
+              <span><a><ion-icon name="chatbox-outline"></ion-icon>Comments</a></span></span>
+              </div>
+            </div>
+          </div>`
 
             tasks+='<span class = "three-dots"></span></div>'    //add the 'options' dots at the side using js later
         }
-        $('div#tasks').append(tasks);
-        $('.dropdown').detach().insertAfter('.three-dots');
+        var projectList = document.getElementById("getalltasks");
+        projectList.innerHTML = tasks;
+        
     });
 
 }
