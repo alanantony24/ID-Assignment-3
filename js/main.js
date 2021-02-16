@@ -1,24 +1,36 @@
 var API_KEY =localStorage.getItem("API_KEY");//global api-key modified in ajax for general use
 $(document).ready(function(){
     displayName() //load first when ready
-    console.log("API-KEY is:" + API_KEY);
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
     var $inboxTab = $('nav.nav1').children().children().eq(1).children().first();
     var clickCount = 0;  //click variable to make sure content doesn't append
     $inboxTab.on("focus",function(){
         clickCount += 1;
-        if(clickCount == 1){
+        if(clickCount >= 1){
             getAllProjects(colorArray);
             getActiveTasks(API_KEY);//display active tasks in DOM
+            $('.dropdown.extra-options').detach().appendTo('.three-dots');
+            var $projectsHeader = $('div#getallproj').prev();
+            var $tasksHeader = $('div#getalltasks').prev();
+            $tasksHeader.hide().show(1000);
+            $projectsHeader.hide().show(1700);
             $('section#inbox h3').show(1000);
             $('section#inbox span a').attr("href","/comment-page");
+            $('a.dropdown').on("click",function(){
+                $('#calendar').show();
+            });
+        
+        //document.querySelector('ul.dropdown-menu li a').setAttribute('class','dropdown-item');
+
         }
+
     })
     $inboxTab.off("focus",function(){
         
         clickCount = 0; //reset
     })
     /*==========================================INBOX TAB EVENT LISTENERS============================================*/
+    $('ul.dropdown-menu.show,ul.dropdown-menu').addClass('adjust-menu');
     var $deleteIcon = document.querySelectorAll('div.accordion-body button#delete');
 /*     $deleteIcon.addEventListener('focus',function(){
         alert("hello");
@@ -190,6 +202,9 @@ function createNewTask(taskName,API_KEY, dueDate){
     });
 }
 //get active Task
+var initialdueDate ;  //to prevent overwriting from previous dueDate value 
+var currentDate;        //declare variables to store values from ajax responses
+var due_string;
 function getActiveTasks(API_KEY){
     var tasks ='';
     var settings = {
@@ -202,17 +217,11 @@ function getActiveTasks(API_KEY){
     $.ajax(settings).done(function(response){
         console.log(response);
         for(let i =0;i<response.length;i++){
-            tasks+=`<div class = "task-box"><div>
-            <h4>${response[i].content}</h4></div><span>
-            <div class="dropup">
-        <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><span id ="due-date-string"><ion-icon name="calendar-outline"></ion-icon>${response[i].due.string}</span></a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-      </div>
-            <span><a><ion-icon name="chatbox-outline"></ion-icon>Comments</a></span></span>`
+            initialdueDate = new Date(response[i].due.date).getTime()
+            currentDate = new Date().getTime()
+            due_string = response[i].due.string
+
+            tasks+=`<div class = "task-box">`
             tasks+=`<div class="accordion-item">
             <h2 class="accordion-header" id="flush-heading${i+1}">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
@@ -221,28 +230,33 @@ function getActiveTasks(API_KEY){
             </h2>
             <div id="flush-collapse${i+1}" class="accordion-collapse collapse" aria-labelledby="flush-heading${i+1}" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body">
-              <span><ion-icon name="calendar-outline"></ion-icon>${new Date (response[i].due.date).toDateString()}</span>
+              <div class="dropup">
+        <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><span id ="due-date-string"><ion-icon name="calendar-outline"></ion-icon>${new Date (response[i].due.date).toDateString()}</span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        ${createDueDateMenu(due_string,initialdueDate,currentDate)}
+        </ul>
+      </div>
+            </span>
               <span><a><ion-icon name="chatbox-outline"></ion-icon>Comments</a></span></span>
+              <span class = "three-dots"></span></div>
               </div>
             </div>
-          </div>`
+          </div></div>`
 
-            tasks+='<span class = "three-dots"></span></div>'    //add the 'options' dots at the side using js later
-            var dueDate = new Date(response[i].due.date).getTime()
-            var currentDate = new Date().getTime()
-            var datesLeft = Math.ceil((dueDate-currentDate)/ (1000 * 3600 * 24));
-            console.log(datesLeft);
+            //tasks+=    //add the 'options' dots at the side using js later
+            
         }
+        
         $('div#tasks').append(tasks);
-        $('.dropdown.extra-options').detach().insertAfter('.three-dots');
+       
         $('span.dropdown button').css("opacity","1");//show hidden dropdown shape from html after shifting over
-        // $('span#due-date-string').prepend(``);
-        // $('span#due-date-string div').append(``);
+        
         var projectList = document.getElementById("getalltasks");
         projectList.innerHTML = tasks;
         
     });
     $('div.task-box').children().eq(1).children().eq(1).children('a').attr("href","#comments");
+
 }
 //Side Anvigation and Banner
 const showMenu = (toggleId, navbarId, bodyId)=>{
@@ -273,7 +287,7 @@ var logOutContent = `<section>
 <div class="container">
     <div class="row align-items-center justify-content-center">
         <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_0fwl68.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-        <h6 class="text-center">Logging you out......Adios :)</h6>
+        <h6 class="text-center">Logging you out....Adios :)</h6>
     </div>
 </div>
 </section>`; //loading animation content
@@ -288,4 +302,60 @@ function redirectToHome(){
 }
 function displayName(){
     $('h4.topbannertext').last().text(`Welcome, ${localStorage.getItem('User')}!`);
+}
+
+function createDueDateMenu(dueString,initialdueDate,currentDate){
+    var datesLeft = Math.ceil((initialdueDate-currentDate)/ (1000 * 3600 * 24));
+    
+    var menuContent = ""
+    if(datesLeft>=1){    //due tasks
+        menuContent+=`<li><span>${datesLeft} days left </span></li>
+        <li><span>${dueString}</span></li><li><a class ="dropdown-item" href = "#picker">Reschedule</a></li>`
+    }
+    else if(datesLeft == 0){
+        menuContent+=`<li><span>Due today</span></li>
+        <li><span>${dueString}</span></li><li><a class ="dropdown-item" href = "#picker">Reschedule</a></li>`
+
+    }
+    else{  //overdue tasks
+        var daysOverdue = -1 * datesLeft
+        menuContent+= `<li><span>${daysOverdue} days overdue!</span></li>
+        <li><span>${dueString}</span></li>`
+    }
+    
+    return menuContent;
+    
+}
+$('#picker').daterangepicker({
+    minDate:new Date(initialdueDate),        //deadlines can only be changed after current deadline
+    minYear:new Date().getFullYear(),      //task deadline cannot preceed current year
+    maxYear:(new Date().getFullYear())+1,   //task deadline cannot exceed current year
+    
+    singleDatePicker:true,
+    showDropdowns:true,
+    opens:'left',
+    drops:'up'
+});
+function createNewComment(task_id,API_KEY,commentContent){
+    var commentInfo = {
+        "task_id":task_id,
+        "content":commentContent
+    }
+    var settings = {
+        "url":"http://curl@/tmp/note.json",
+        "raw_url":"http://curl@/tmp/note.json",
+        "method":"POST",
+        "headers":{
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${API_KEY}`,
+        },
+        "data":{
+            "@/tmp/note.json":JSON.stringify(commentInfo)
+        }
+
+    }
+    $.ajax(settings).done(function(response){
+        console.log(response);
+    });
+    
 }
