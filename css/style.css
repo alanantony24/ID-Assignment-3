@@ -312,3 +312,14 @@ ion-icon{
 .dropdown-toggle::after {   /*hide the content*/
     content: none; 
 } 
+
+#due-date-menu{
+    border: 1px solid #0C5DF4;
+    width:500px;
+    height:100px; 
+}
+.adjust-menu{
+    transform: trtranslate(-160px, 15.7037px);
+      
+}
+/*reposition the dropup menu for task's due string*/
