@@ -145,15 +145,29 @@ function getActiveTasks(API_KEY){
         for(let i =0;i<response.length;i++){
             tasks+=`<div class = "task-box"><div>
             <h4>${response[i].content}</h4></div><span>
-            <span><ion-icon name="calendar-outline"></ion-icon>${response[i].due.string}</span>
+            <div class="dropup">
+        <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><span id ="due-date-string"><ion-icon name="calendar-outline"></ion-icon>${response[i].due.string}</span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </div>
             <span><a><ion-icon name="chatbox-outline"></ion-icon>Comments</a></span></span>`
 
             tasks+='<span class = "three-dots"></span></div>'    //add the 'options' dots at the side using js later
+            var dueDate = new Date(response[i].due.date).getTime()
+            var currentDate = new Date().getTime()
+            var datesLeft = Math.ceil((dueDate-currentDate)/ (1000 * 3600 * 24));
+            console.log(datesLeft);
         }
         $('div#tasks').append(tasks);
-        $('.dropdown').detach().insertAfter('.three-dots');
+        $('.dropdown.extra-options').detach().insertAfter('.three-dots');
+        $('span.dropdown button').css("opacity","1");//show hidden dropdown shape from html after shifting over
+        // $('span#due-date-string').prepend(``);
+        // $('span#due-date-string div').append(``);
     });
-
+    $('div.task-box').children().eq(1).children().eq(1).children('a').attr("href","#comments");
 }
 //Side Anvigation and Banner
 const showMenu = (toggleId, navbarId, bodyId)=>{
