@@ -323,3 +323,32 @@ ion-icon{
       
 }
 /*reposition the dropup menu for task's due string*/
+/*===============Style the calendar in datetimepicker=================*/
+.table-condensed,.drp-calendar{
+    background-color: #000;
+    color: #fff;
+}
+.off.ends.available{
+    background-color: #000;
+    color: limegreen;
+}
+.daterangepicker td.available:hover{
+    color:#000;
+}
+.drp-buttons{
+    background-color: #00203FFF;
+    
+}
+.drp-buttons button{
+    color:#ADEFD1FF;
+}
+.next.available{
+    color: #fff;
+}
+div.daterangepicker{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+td{
+    padding:5px;
+}
