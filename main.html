@@ -7,6 +7,8 @@
     <!--BootStrap CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -40,7 +42,7 @@
                 <ion-icon name="mail-unread-outline" class="nav__icon"></ion-icon>
                 <span class="nav__name">Inbox</span>
               </a>
-              <a href="#" class="nav__link">
+              <a href="#upcoming" class="nav__link">
                 <ion-icon name="calendar-outline" class="nav__icon"></ion-icon>
                 <span class="nav__name">Upcoming</span>
               </a>
@@ -130,72 +132,95 @@
         </div>
       </div>
     </section>
-
-
-    <section id = "comment-modal">
-      <div class="modal-dialog modal-dialog-centered">
+    <!--Panels for displaying Project and task details-->
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4 style="display: none;">Projects to be done</h4>
+            <div id="getallproj">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <h4 style="display: none;">Tasks to be done</h4>
+            <div id="getalltasks">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Section for task add comments-->
+    <div class="modal fade" id="commentmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Comments</h5>
+            <h5 class="modal-title taskNameinModal">Task Name</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <h3>Task Name</h3>
-
             <div class="input-group">
-              <span class="input-group-text">New Comments</span>
+              <span class="input-group-text">Comment here!</span>
               <textarea class="form-control" aria-label="With textarea"></textarea>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Comments </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Add Comment</button>
           </div>
         </div>
       </div>
-    </section>
-    <!--Panels for displaying Project and task details-->
-    <section id="inbox">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-6">
-            <h4 style="display:none;">Projects to be done</h4>
-            <div id="getallproj">
-              <div id="projects">
-                <h3>Projects</h3>
-              </div>
-        
-            </div>
+    </div>
+    <!--View Comments-->
+    <div class="modal fade" id="viewcomments" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title taskNameinModal">Task Name</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="col-sm-6">
-            <h4 style="display:none;">Tasks to be done</h4>
-            <div id="getalltasks">
-              <div id="tasks">
-                
-                <span class="dropdown extra-options">
-                  <button class="btn btn-white dropdown-toggle" type="button" style ="opacity:1;" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <ion-icon name="ellipsis-vertical-outline" role="img" class="md hydrated" aria-label="ellipsis vertical outline"></ion-icon>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button class="dropdown-item" type="button"><ion-icon name="trash-outline"></ion-icon>Delete Task</button></li>
-                    <li><button class="dropdown-item" type="button"><ion-icon name="refresh-outline"></ion-icon>Reschedule Task</button></li>
-                    <li><button class="dropdown-item" type="button"><ion-icon name="star-outline"></ion-icon>Add to Favorites</button></li>
-                  </ul>
-                </span>
-                
-                
-                    
-              </div>
-
-            </div>
-            <div id = "calendar" style = "width: 200px;">
-              <input type="text" id="picker" class="form-control">
-            </div>
-
+          <div class="modal-body">
+            <ol>
+              <li><h6 class="commentsontask">HIHIHIHI</h6></li>
+              <li><h6 class="commentsontask">HIHIHIHI</h6></li>
+              <li><h6 class="commentsontask">HIHIHIHI</h6></li>
+            </ol>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+    <!--Reschedule and view remaining days modal-->
+    <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="taskNameinModal">Task Name</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class=" text-center duedate">23rd October 2021</h6>
+              </div>
+              <div class="col-sm-6">
+                <h6 class="text-center">2632 days left</h6>
+              </div>
+            </div>
+            <br>
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button onclick="showCalendar()" class="btn btn-primary" type="button">Reschedule Task</button>
+              <div class="d-grid gap-2 col-6 mx-auto" id = "calendar" style = "width: 200px;">
+                <input type="text" id="picker" class="form-control">
+              </div>
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>    
   <!--Ionicons-->
   <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
