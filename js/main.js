@@ -1,36 +1,28 @@
 var API_KEY =localStorage.getItem("API_KEY");//global api-key modified in ajax for general use
 $(document).ready(function(){
     displayName() //load first when ready
+    console.log("API-KEY is:" + API_KEY);
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
     var $inboxTab = $('nav.nav1').children().children().eq(1).children().first();
     var clickCount = 0;  //click variable to make sure content doesn't append
     $inboxTab.on("focus",function(){
         clickCount += 1;
-        if(clickCount >= 1){
+        if(clickCount == 1){
             getAllProjects(colorArray);
-            getActiveTasks(API_KEY);//display active tasks in DOM
+            getActiveTasks(API_KEY);//display active tasks in DOM            $('section#inbox h3').show(1000);
+            $('section#inbox span a').attr("href","/comment-page");
             $('.dropdown.extra-options').detach().appendTo('.three-dots');
             var $projectsHeader = $('div#getallproj').prev();
             var $tasksHeader = $('div#getalltasks').prev();
-            $tasksHeader.hide().show(1000);
-            $projectsHeader.hide().show(1700);
-            $('section#inbox h3').show(1000);
-            $('section#inbox span a').attr("href","/comment-page");
-            $('a.dropdown').on("click",function(){
-                $('#calendar').show();
-            });
-        
-        //document.querySelector('ul.dropdown-menu li a').setAttribute('class','dropdown-item');
-
+            $tasksHeader.hide().show(1700);
+            $projectsHeader.hide().show(1000);
         }
-
     })
     $inboxTab.off("focus",function(){
-        
+        alert("Ufffffff!")
         clickCount = 0; //reset
     })
     /*==========================================INBOX TAB EVENT LISTENERS============================================*/
-    $('ul.dropdown-menu.show,ul.dropdown-menu').addClass('adjust-menu');
     var $deleteIcon = document.querySelectorAll('div.accordion-body button#delete');
 /*     $deleteIcon.addEventListener('focus',function(){
         alert("hello");
@@ -97,7 +89,7 @@ function getAllProjects(colorArray){
                 </button>
               </h2>
               <div id="flush-collapses${i+1}" class="accordion-collapse collapse" aria-labelledby="flush-heading${i+1}" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body projectaccordion">
+                <div class="accordion-body">
                 <span data-tooltip="Add comment"><button id="comment"><ion-icon name="chatbox-ellipses-outline"></ion-icon></button></span>
                 <span data-tooltip="Edit"><button id="update"><ion-icon name="create-outline"></ion-icon></button></span>
                 <span data-tooltip="Delete"><button id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
@@ -198,13 +190,13 @@ function createNewTask(taskName,API_KEY, dueDate){
     }
     $.ajax(settings).done(function(response){
         console.log(response);
-        alert("Success!!!")
+        hideModal();
+        function hideModal(){
+            $("#addTask").modal('toggle');
+        }
     });
 }
 //get active Task
-var initialdueDate ;  //to prevent overwriting from previous dueDate value 
-var currentDate;        //declare variables to store values from ajax responses
-var due_string;
 function getActiveTasks(API_KEY){
     var tasks ='';
     var settings = {
@@ -217,11 +209,6 @@ function getActiveTasks(API_KEY){
     $.ajax(settings).done(function(response){
         console.log(response);
         for(let i =0;i<response.length;i++){
-            initialdueDate = new Date(response[i].due.date).getTime()
-            currentDate = new Date().getTime()
-            due_string = response[i].due.string
-
-            tasks+=`<div class = "task-box">`
             tasks+=`<div class="accordion-item">
             <h2 class="accordion-header" id="flush-heading${i+1}">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
@@ -230,33 +217,17 @@ function getActiveTasks(API_KEY){
             </h2>
             <div id="flush-collapse${i+1}" class="accordion-collapse collapse" aria-labelledby="flush-heading${i+1}" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body">
-              <div class="dropup">
-        <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><span id ="due-date-string"><ion-icon name="calendar-outline"></ion-icon>${new Date (response[i].due.date).toDateString()}</span></a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        ${createDueDateMenu(due_string,initialdueDate,currentDate)}
-        </ul>
-      </div>
-            </span>
-              <span><a><ion-icon name="chatbox-outline"></ion-icon>Comments</a></span></span>
-              <span class = "three-dots"></span></div>
+              <span style="padding-right: 20px;"><a data-bs-toggle="modal" data-bs-target="#calendarModal"><ion-icon name="calendar-outline"></ion-icon>${new Date (response[i].due.date).toDateString()}</a></span>
+              <span style="padding-right: 20px;"><a data-bs-toggle="modal" data-bs-target="#commentmodal"><ion-icon name="chatbox-outline"></ion-icon>Add Comments</a></span></span>
+              <span><a data-bs-toggle="modal" data-bs-target="#viewcomments"><ion-icon name="eye-outline"></ion-icon>View Comments</a></span></span>
               </div>
             </div>
-          </div></div>`
-
-            //tasks+=    //add the 'options' dots at the side using js later
-            
+          </div>`
+          tasks+='<span class = "three-dots"></span></div>'    //add the 'options' dots at the side using js later
         }
-        
-        $('div#tasks').append(tasks);
-       
-        $('span.dropdown button').css("opacity","1");//show hidden dropdown shape from html after shifting over
-        
         var projectList = document.getElementById("getalltasks");
-        projectList.innerHTML = tasks;
-        
+        projectList.innerHTML = tasks; 
     });
-    $('div.task-box').children().eq(1).children().eq(1).children('a').attr("href","#comments");
-
 }
 //Side Anvigation and Banner
 const showMenu = (toggleId, navbarId, bodyId)=>{
@@ -287,7 +258,7 @@ var logOutContent = `<section>
 <div class="container">
     <div class="row align-items-center justify-content-center">
         <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_0fwl68.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-        <h6 class="text-center">Logging you out....Adios :)</h6>
+        <h6 class="text-center">Logging you out......Adios :)</h6>
     </div>
 </div>
 </section>`; //loading animation content
@@ -303,59 +274,24 @@ function redirectToHome(){
 function displayName(){
     $('h4.topbannertext').last().text(`Welcome, ${localStorage.getItem('User')}!`);
 }
-
-function createDueDateMenu(dueString,initialdueDate,currentDate){
-    var datesLeft = Math.ceil((initialdueDate-currentDate)/ (1000 * 3600 * 24));
-    
-    var menuContent = ""
-    if(datesLeft>=1){    //due tasks
-        menuContent+=`<li><span>${datesLeft} days left </span></li>
-        <li><span>${dueString}</span></li><li><a class ="dropdown-item" href = "#picker">Reschedule</a></li>`
-    }
-    else if(datesLeft == 0){
-        menuContent+=`<li><span>Due today</span></li>
-        <li><span>${dueString}</span></li><li><a class ="dropdown-item" href = "#picker">Reschedule</a></li>`
-
-    }
-    else{  //overdue tasks
-        var daysOverdue = -1 * datesLeft
-        menuContent+= `<li><span>${daysOverdue} days overdue!</span></li>
-        <li><span>${dueString}</span></li>`
-    }
-    
-    return menuContent;
-    
-}
+//Reschedule calendar javascript 
 $('#picker').daterangepicker({
-    minDate:new Date(initialdueDate),        //deadlines can only be changed after current deadline
-    minYear:new Date().getFullYear(),      //task deadline cannot preceed current year
-    maxYear:(new Date().getFullYear())+1,   //task deadline cannot exceed current year
-    
+    //minDate:new Date(initialdueDate),           
+    minYear:new Date().getFullYear(),                                                    
+    maxYear:(new Date().getFullYear())+1,   
+    changeMonth: true,
+    ranges: {
+        'Today': [moment(), moment()],
+        'Next 7 Days': [moment().add(7, 'days'), moment()],
+        'Next 30 Days': [moment().add(30, 'days'), moment()],
+    },
     singleDatePicker:true,
     showDropdowns:true,
     opens:'left',
-    drops:'up'
+    drops:'down'
 });
-function createNewComment(task_id,API_KEY,commentContent){
-    var commentInfo = {
-        "task_id":task_id,
-        "content":commentContent
-    }
-    var settings = {
-        "url":"http://curl@/tmp/note.json",
-        "raw_url":"http://curl@/tmp/note.json",
-        "method":"POST",
-        "headers":{
-            'Content-Type': 'application/json',
-            'Authorization':`Bearer ${API_KEY}`,
-        },
-        "data":{
-            "@/tmp/note.json":JSON.stringify(commentInfo)
-        }
-
-    }
-    $.ajax(settings).done(function(response){
-        console.log(response);
-    });
-    
+$("#picker").hide();
+function showCalendar(){
+    $("#picker").show(1000);
 }
+$("#picker").hide();
