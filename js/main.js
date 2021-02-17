@@ -289,7 +289,23 @@ $('#picker').daterangepicker({
     showDropdowns:true,
     opens:'left',
     drops:'down'
-});
+});                                                     //
+
+$('#task_datetime').daterangepicker({
+    //minDate:new Date(initialdueDate),           
+    minYear:new Date().getFullYear(),                                                    
+    maxYear:(new Date().getFullYear())+1,   
+    changeMonth: true,
+    ranges: {
+        'Today': [moment(), moment()],
+        'Next 7 Days': [moment().add(7, 'days'), moment()],
+        'Next 30 Days': [moment().add(30, 'days'), moment()],
+    },
+    singleDatePicker:true,
+    showDropdowns:true,
+    opens:'left',
+    drops:'down'
+});    
 $("#picker").hide();
 function showCalendar(){
     $("#picker").show(1000);
