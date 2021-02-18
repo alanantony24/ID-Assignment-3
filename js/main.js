@@ -30,6 +30,18 @@ $(document).ready(function(){
         e.preventDefault();
         alert('sup')
     });
+    $('a:contains("View Comments")').on('click',function(){
+        var selectedTaskName = $('[aria-expanded=true]').text().trim()
+        console.log(selectedTaskName);
+        $('h5.taskNameinModal').text(selectedTaskName);
+    
+    });
+    $('a:contains("Add Comments")').on('click',function(){
+        var selectedTaskName = $('[aria-expanded=true]').text().trim()
+        console.log(selectedTaskName);
+        $('h5#tasknameaddcomments').text(selectedTaskName);
+    
+    });
 });
 /*===================================SIDE NAVBAR & AJAX FUNCTIONS====================================================*/
 var colorArray = 
@@ -318,4 +330,67 @@ function showSection(){
     $projectsHeader.hide().show(1000);
     $("#getallproj").hide().show(1500);
     $("#getalltasks").hide().show(2000);
+}
+/*=====================================JAVASCRIPT FOR THE GAMIFICATION FEATURES======================================================== */
+
+// TIERS points
+var tier1 = 10000;
+var tier2 = 6000;
+var tier3 = 2000;
+
+var monthlyQuest =[
+    {}, 
+    {},
+    {}
+];
+//APPoints variable will be stored in restdb -default 100
+// basic points
+var createTask = 30;
+var deleteTask = -10;
+var rescheduleTask = -100;
+var completedTask = 80;
+
+var createProject = 400;
+var deleteProject = -200;
+
+var quest = 200;
+var startingDate = new Date('17/02/2021'); //will be done on a certain date to start points system 
+
+var currentDate = new Date() ;
+
+var timeDiff= currentDate.getTime() - startingDate.getTime();
+
+var dayDiff = timeDiff / (1000 * 3600 * 24);
+
+if (dayDiff == 90)
+{
+	//reset points system
+	dayDiff = 0;
+	startingDate = new Date();
+	//reset all users' APPoints to 0
+}
+
+function getAllGameRecords(){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records",
+        "method": "GET",
+        "headers": {
+          "content-type": "application/json",
+          "x-apikey": "601fe54e3f9eb665a168922e",
+          "cache-control": "no-cache"
+        }
+      }
+      
+      $.ajax(settings).done(function (response) {
+        console.log(response);
+        for(let i =0;i<response.length;i++){
+            let user = response[i];
+            user.username;
+            user.APPoints;
+            user.Tier;
+        }
+      });
+
 }
