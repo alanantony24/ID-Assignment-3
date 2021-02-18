@@ -38,13 +38,9 @@
               <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
             </div>
             <div class="nav__list">
-              <a href="#inbox" class="nav__link active">
+              <a onclick="showSection()" href="#inbox" class="nav__link active">
                 <ion-icon name="mail-unread-outline" class="nav__icon"></ion-icon>
                 <span class="nav__name">Inbox</span>
-              </a>
-              <a href="#upcoming" class="nav__link">
-                <ion-icon name="calendar-outline" class="nav__icon"></ion-icon>
-                <span class="nav__name">Upcoming</span>
               </a>
               <a href="#" data-bs-toggle="modal" data-bs-target="#addProj" class="nav__link">
                 <ion-icon name="file-tray-full-outline" class="nav__icon"></ion-icon>
@@ -57,6 +53,10 @@
               <a href="#" class="nav__link" onclick="logOutUser(logOutContent)" >
                 <ion-icon class="nav__icon logouticon" name="person-circle-outline"></ion-icon>
                 <span class="nav__name">Log Out</span>
+              </a>
+              <a onclick="hideSection()" href="#leaderboard" data-bs-toggle="nav__link" data-bs-target="#" class="nav__link">
+                <ion-icon name="medal-outline" class="nav__icon"></ion-icon>
+                <span class="nav__name">APP Leaderboard</span>
               </a>
             </div>
           </div>
@@ -104,24 +104,24 @@
                 </div>
                 <h6>Set Priority(1-highest, 4-Lowest)</h6>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=1>
                   <label class="form-check-label" for="inlineRadio1">1</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value=2>
                   <label class="form-check-label" for="inlineRadio2">2</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=3>
                   <label class="form-check-label" for="inlineRadio1">3</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value=4>
                   <label class="form-check-label" for="inlineRadio2">4</label>
                 </div>
                 <br>
                 <label for="due_datetime">Enter date & time:</label>
-                <input type="text" name="due_datetime" id="task_datetime" required>
+                <input type="date" name="due_datetime" id="task_datetime" required>
               </form>
             </div>
             <div class="modal-footer">
@@ -133,7 +133,7 @@
       </div>
     </section>
     <!--Panels for displaying Project and task details-->
-    <section>
+    <section id="inbox">
       <div class="container">
         <div class="row">
           <div class="col-sm-6">
@@ -149,12 +149,55 @@
         </div>
       </div>
     </section>
+    <!--Section for leaderboard-->
+    <section id="leaderboard">
+      <div class="container leaderboardtable">
+        <div class="col-sm-5">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Sl No</th>
+                <th scope="col">UserName</th>
+                <th scope="col">APPoints</th>
+                <th scope="col">Tier</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>   
     <!--Section for task add comments-->
     <div class="modal fade" id="commentmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title taskNameinModal">Task Name</h5>
+            <h5 class="modal-title" id="tasknameaddcomments">Task Name</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -221,7 +264,7 @@
         </div>
       </div>
     </div>
-  </section>    
+  </section> 
   <!--Ionicons-->
   <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
   <!-- JQuery CDN -->
