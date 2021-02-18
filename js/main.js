@@ -12,10 +12,6 @@ $(document).ready(function(){
             getActiveTasks(API_KEY);//display active tasks in DOM            $('section#inbox h3').show(1000);
             $('section#inbox span a').attr("href","/comment-page");
             $('.dropdown.extra-options').detach().appendTo('.three-dots');
-            var $projectsHeader = $('div#getallproj').prev();
-            var $tasksHeader = $('div#getalltasks').prev();
-            $tasksHeader.hide().show(1700);
-            $projectsHeader.hide().show(1000);
         }
     })
     $inboxTab.off("focus",function(){
@@ -289,25 +285,37 @@ $('#picker').daterangepicker({
     showDropdowns:true,
     opens:'left',
     drops:'down'
-});                                                     //
-
-$('#task_datetime').daterangepicker({
-    //minDate:new Date(initialdueDate),           
-    minYear:new Date().getFullYear(),                                                    
-    maxYear:(new Date().getFullYear())+1,   
-    changeMonth: true,
-    ranges: {
-        'Today': [moment(), moment()],
-        'Next 7 Days': [moment().add(7, 'days'), moment()],
-        'Next 30 Days': [moment().add(30, 'days'), moment()],
-    },
-    singleDatePicker:true,
-    showDropdowns:true,
-    opens:'left',
-    drops:'down'
-});    
+});                                                
+// Calendar for usual Add task features
+// $('#task_datetime').daterangepicker({
+//     //minDate:new Date(initialdueDate),           
+//     minYear:new Date().getFullYear(),                                                    
+//     maxYear:(new Date().getFullYear())+1,   
+//     changeMonth: true,
+//     ranges: {
+//         'Today': [moment(), moment()],
+//         'Next 7 Days': [moment().add(7, 'days'), moment()],
+//         'Next 30 Days': [moment().add(30, 'days'), moment()],
+//     },
+//     singleDatePicker:true,
+//     showDropdowns:true,
+//     opens:'left',
+//     drops:'down'
+// });    
 $("#picker").hide();
 function showCalendar(){
     $("#picker").show(1000);
 }
 $("#picker").hide();
+function hideSection(){
+    $("#getallproj").hide();
+    $("#getalltasks").hide();
+}
+function showSection(){
+    var $projectsHeader = $('div#getallproj').prev();
+    var $tasksHeader = $('div#getalltasks').prev();
+    $tasksHeader.hide().show(1700);
+    $projectsHeader.hide().show(1000);
+    $("#getallproj").hide().show(1500);
+    $("#getalltasks").hide().show(2000);
+}
