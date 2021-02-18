@@ -352,3 +352,15 @@ div.daterangepicker{
 td{
     padding:5px;
 }
+/*Table for leaderboard*/
+.leaderboardtable{
+    display: flex;
+    justify-content: center;
+}
+/*Hover animation for feature icons*/
+div.accordion-body span{
+    cursor: pointer;
+}
+div.accordion-body span:hover{
+    color:#1c94da;
+}
