@@ -152,10 +152,26 @@
             <h4 style="display: none;">Tasks to be done</h4>
             <div id="getalltasks">
             </div>
+            <div class = "fixed">
+              <button id = "topBtn" onclick="TopFunction()"> 
+                <div class="top-arrow">
+                  <ion-icon name="chevron-up-outline"></ion-icon>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </section>
+    <div style="display: none;" id="toastcompleted" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body">
+        1 task completed.
+        <div class="mt-2 pt-2 border-top">
+          <button type="button" class="btn btn-primary btn-sm" onclick = "">Undo</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+        </div>
+      </div>
+    </div>
     <!--Section for leaderboard-->
     <section id="leaderboard" style = "display: none;">
       <div class="container leaderboardtable">
@@ -210,14 +226,14 @@
         </div>
         <div class="col-sm-3 cardbg">
           <img style="display: none;" src="assets/shopping_cart.jpg" alt="Image of Filled Supermarket trolley" width = "300" height = "auto">
-          <h5 class="text-center">NTUC Voucher</h5>
+          <h5 class="text-center">FairPrice Voucher</h5>
           <h5 class="text-center">Tier 2 Prize</h5>
           <h5 class="text-center">4500 APP</h5>
           <button style="display: none;" class="btn btn-primary">Purchase</button>
         </div>
         <div class="col-sm-3 cardbg">
           <lottie-player style="display: none;" src="https://assets1.lottiefiles.com/packages/lf20_NiUhhS.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-          <h5 class="text-center">Bubble Tea Voucher</h5>
+          <h5 class="text-center">Bubble Tea Voucher ($5)</h5>
           <h5 class="text-center">Tier 3 Prize</h5>
           <h5 class="text-center">900 APP</h5>
           <button style="display: none;" class="btn btn-primary">Purchase</button>
@@ -239,7 +255,7 @@
         </div>
         <div class="col-sm-3 cardbg">
           <lottie-player style="display: none;" src="https://assets2.lottiefiles.com/packages/lf20_cXVf2b.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-          <h5 class="text-center">McDonalds Coupon</h5>
+          <h5 class="text-center">McDonalds Coupon ($7)</h5>
           <h5 class="text-center">Tier 3 Prize</h5>
           <h5 class="text-center">1000 APP</h5>
         </div>
@@ -256,13 +272,13 @@
         </div>
         <div class="col-sm-3 cardbg">
           <img style="display: none;" src="assets/andes_by_astons.jpg" alt="Poster of Andes By Astons Menu" width="300" height ="auto">
-          <h5 class="text-center">Andes By Astons Voucher</h5>
+          <h5 class="text-center">Andes By Astons Voucher($20)</h5>
           <h5 class="text-center">Tier 2 Prize</h5>
           <h5 class="text-center">2500 APP</h5>
         </div>
         <div class="col-sm-3 cardbg">
           <img style="display: none;" src="assets/7-eleven_logo.svg.png" alt="7 eleven logo" width = "300" height = "auto">
-          <h5 class="text-center">7-11 Voucher</h5>
+          <h5 class="text-center">7-11 Voucher($5)</h5>
           <h5 class="text-center">Tier 3 Prize</h5>
           <h5 class="text-center">800 APP</h5>
         </div>
@@ -273,6 +289,19 @@
             <ion-icon name="chevron-up-outline"></ion-icon>
           </div>
         </button>
+      </div>
+      <!-- Code adapted from Bootstrap 5.0 (for the toast)--> 
+      <div class="toast-container" style = "display: none;" class="position-fixed bottom-50 end-0 p-3" style="z-index: 5">
+        <div class="toast" role="alert"  aria-live="assertive" aria-atomic="true"  data-bs-autohide="false">
+            <div class="toast-header">
+            <strong class="me-auto">Insufficient APPoints</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+            Woah? Not so fast yeah. You've gotta earn it right.
+            <button class = "btn btn-warning" onclick="displayAwardTips()">Desperate?Get Tips</button>
+            </div>
+        </div>
       </div>
     <!--Section for task add comments-->
     <div class="modal fade" id="commentmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
