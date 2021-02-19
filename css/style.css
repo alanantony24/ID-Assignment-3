@@ -364,3 +364,71 @@ div.accordion-body span{
 div.accordion-body span:hover{
     color:#1c94da;
 }
+
+
+
+/*===================================================Styling in the leaderboard tab======================================================================*/
+#leaderboard{
+    font-family: 'Josefin Sans', sans-serif;
+}
+#leaderboard h3 {
+    padding: 20px 20px 40px;
+    font-size: 30pt;
+}
+/*===================================================ordino rewards Tab=================================================================*/
+/*Learnt from W3Schools*/
+div.fixed{
+    position: fixed;
+    bottom:30px;
+    right:20px;
+    z-index: 7;
+}
+#store h4{
+    color:red;
+    padding:20px 0px
+}
+.top-arrow{
+    border-radius: 50%;
+    background-color: #0C5DF4;
+    color:#fff;
+    width:65px;
+    height:65px;
+    position: relative;
+}
+.top-arrow ion-icon{
+    position: absolute;
+    top:28%;
+    left:28%;
+    z-index: 3;
+}
+.fixed button,#getallproj .accordion-body button{
+    border-style: hidden;
+    background-color: transparent;
+}
+.cardbg{
+    background-color: white;
+    border-radius: 15px;
+    margin-right: 20px;
+}
+.user-points{
+    width: 15%;
+    height: 50px;
+    position: fixed;
+    right:0;
+    top:10;
+    background-color: navy;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding:15px 5px;
+}
+.user-points ion-icon{
+    color: #69d647;
+    padding-bottom:5px;
+}
+#store .user-points h5{
+    color: #f1f1f1;
+    position: relative;
+    bottom: 35px;
+    padding-bottom: 20px;
+}
+/*Learnt from W3Schools*/
