@@ -9,6 +9,8 @@
     rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -38,7 +40,7 @@
               <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
             </div>
             <div class="nav__list">
-              <a onclick="showSection()" href="#inbox" class="nav__link active">
+              <a onclick="showSection();hideLeaderBoard();hideStore()" href="#inbox" class="nav__link active">
                 <ion-icon name="mail-unread-outline" class="nav__icon"></ion-icon>
                 <span class="nav__name">Inbox</span>
               </a>
@@ -50,14 +52,19 @@
                 <ion-icon name="construct-outline" class="nav__icon"></ion-icon>
                 <span class="nav__name">Add Task<span><ion-icon name="add-outline" class="addtask"></ion-icon></span></span>
               </a>
+              <a onclick="hideSection();showLeaderBoard();hideStore()" href="#leaderboard" data-bs-toggle="nav__link" data-bs-target="#" class="nav__link">
+                <ion-icon name="medal-outline" class="nav__icon"></ion-icon>
+                <span class="nav__name">APP Leaderboard</span>
+              </a>
+              <a onclick="hideSection();hideLeaderBoard();showStore()" href="#store" data-bs-toggle="nav__link" data-bs-target="#" class="nav__link">
+                <ion-icon name="cart-outline" class="nav__icon"></ion-icon>
+                <span class="nav__name">Ordino rewards</span>
+              </a>
               <a href="#" class="nav__link" onclick="logOutUser(logOutContent)" >
                 <ion-icon class="nav__icon logouticon" name="person-circle-outline"></ion-icon>
                 <span class="nav__name">Log Out</span>
               </a>
-              <a onclick="hideSection()" href="#leaderboard" data-bs-toggle="nav__link" data-bs-target="#" class="nav__link">
-                <ion-icon name="medal-outline" class="nav__icon"></ion-icon>
-                <span class="nav__name">APP Leaderboard</span>
-              </a>
+              
             </div>
           </div>
         </nav>
@@ -150,48 +157,117 @@
       </div>
     </section>
     <!--Section for leaderboard-->
-    <section id="leaderboard">
+    <section id="leaderboard" style = "display: none;">
       <div class="container leaderboardtable">
-        <div class="col-sm-5">
-          <table class="table table-striped">
+        <div class="row">
+          <div class="col-sm-5">
+            <h3 style = "text-align: center;">Ordino Leaderboard</h3>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Sl No</th>
+                  <th scope="col">UserName</th>
+                  <th scope="col">APPoints</th>
+                  <th scope="col">Tier</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Code adapted from Bootstrap 5.0 -->
+        <div class="toast-container">
+          <div class="toast" role="alert"  aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <!-- <img src="..." class="rounded me-2" alt="..."> -->
+              <strong class="me-auto">Insufficient APPoints</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Woah? Not so fast yeah. You've gotta earn it right.
+              <button class = "btn btn-warning" onclick="displayAwardTips()">Desperate?Get Tips</button>
+            </div>
+          </div>
+        </div>
+        <!-- <div class = "row">  
+          <h3>Terms and Conditions</h3>
+          <h4>Points System</h4>
+          <table>
             <thead>
-              <tr>
-                <th scope="col">Sl No</th>
-                <th scope="col">UserName</th>
-                <th scope="col">APPoints</th>
-                <th scope="col">Tier</th>
-              </tr>
+              <th>Activity</th>
+              <th>Type</th>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
           </table>
+          <p id = "instructions">
+            <ol>
+              <li></li>
+            </ol>
+          </p>
+       
+        </div> -->
+      </div>
+    </section> 
+    <div class="container" id="store" style="display: none;">
+      <div class="user-points">
+        <span><ion-icon name="cash-outline"></ion-icon></span>
+        <span><h5 class="text-center"></h5></span>
+      </div> 
+      <div class="row"><h4>January-March(Cycle 1)</h4></div>
+      <div class="row justify-content-between">
+        <div class="col-sm-3 align-item-center cardbg">
+          <img src="assets/CableCar.gif" alt="GIF of a cable Car" width="300" height=auto>
+          <h6>Cable Car Voucher</h6>
+        </div>
+      
+        <div class="col-sm-3 cardbg">
+          <img src="assets/shopping_cart.jpg" alt="Image of Filled Supermarket trolley" width = "300" height = "auto">
+          <h6>NTUC Voucher</h6>
+        </div>
+        <div class="col-sm-3 cardbg">
+          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_NiUhhS.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+          <h6>Bubble Tea Voucher</h6>
         </div>
       </div>
-    </section>   
+      <div class="row"><h4>May-July(Cycle 2)</h4></div>
+      <div  class="row justify-content-between">
+        <div class="col-sm-3 align-item-center cardbg">
+          <img src="assets/Jewel-lounge.jpg" alt="Image of Jewel Lounge" width = "300" height = "auto">
+          <h6>Jewel lounge Entry For 1</h6>
+        </div>
+        <div class="col-sm-3 cardbg">
+          <img src="assets/pasta-image.jpg" alt="Pasta poster" width = "300" height = "auto">
+          <h6>Pastamania Voucher</h6>
+        </div>
+        <div class="col-sm-3 cardbg">
+          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_cXVf2b.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+          <h6>McDonalds Coupon</h6>
+        </div>
+      </div>
+      <div class="row">
+        <h4>September-November(Cycle 3)</h4>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-sm-3 align-item-center cardbg">
+          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_lb6Gsk.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+          <h6>Singapore Zoo tickets for 2</h6>
+        </div>
+        <div class="col-sm-3 cardbg">
+          <img src="assets/andes_by_astons.jpg" alt="Poster of Andes By Astons Menu" width="300" height ="auto">
+          <h6>Andes By Astons Voucher</h6>
+        </div>
+        <div class="col-sm-3 cardbg">
+          <img src="assets/7-eleven_logo.svg.png" alt="7 eleven logo" width = "300" height = "auto">
+          <h6>7-11 Voucher</h6>
+        </div>
+      </div>
+      <div class = "fixed">
+        <button id = "topBtn" onclick="TopFunction()"> 
+          <div class="top-arrow">
+            <ion-icon name="chevron-up-outline"></ion-icon>
+          </div>
+        </button>
+      </div>
     <!--Section for task add comments-->
     <div class="modal fade" id="commentmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -244,18 +320,15 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-sm-6">
-                <h6 class=" text-center duedate">23rd October 2021</h6>
-              </div>
-              <div class="col-sm-6">
+              <div class="col-sm-12">
                 <h6 class="text-center">2632 days left</h6>
               </div>
             </div>
             <br>
             <div class="d-grid gap-2 col-6 mx-auto">
-              <button onclick="showCalendar()" class="btn btn-primary" type="button">Reschedule Task</button>
+              <button onclick="showCalendar()" class="btn btn-primary" id = "reschedulebtn" type="button">Reschedule Task</button>
               <div class="d-grid gap-2 col-6 mx-auto" id = "calendar" style = "width: 200px;">
-                <input type="text" id="picker" class="form-control">
+                <input type="text" id="picker" class="form-control" required>
               </div>
             </div>
           <div class="modal-footer">
@@ -265,6 +338,7 @@
       </div>
     </div>
   </section> 
+  <!-- Modal for deleting project -->
   <!--Ionicons-->
   <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
   <!-- JQuery CDN -->
