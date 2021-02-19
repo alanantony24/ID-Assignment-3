@@ -638,6 +638,14 @@ $('.flip-card').on("focus",function(){
         $('.toast-container').show();
     }
 });
+for(var i = 0; i < $('.cardbg').length; i++){
+    $('.user-points').next().next().children().eq(i).on('click', function(){
+        $(this).hide(1000);
+        $(this).children().eq(0).css('display','block');
+        $(this).children().eq(4).addClass("d-grid gap-2 col-6 mx-auto");
+        $(this).show(1000);
+    })
+}
 
 
 prizeList = {
