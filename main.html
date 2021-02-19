@@ -176,21 +176,7 @@
             </table>
           </div>
         </div>
-        <!-- Code adapted from Bootstrap 5.0 -->
-        <div class="toast-container">
-          <div class="toast" role="alert"  aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-              <!-- <img src="..." class="rounded me-2" alt="..."> -->
-              <strong class="me-auto">Insufficient APPoints</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-              Woah? Not so fast yeah. You've gotta earn it right.
-              <button class = "btn btn-warning" onclick="displayAwardTips()">Desperate?Get Tips</button>
-            </div>
-          </div>
-        </div>
-        <!-- <div class = "row">  
+      <!-- <div class = "row">  
           <h3>Terms and Conditions</h3>
           <h4>Points System</h4>
           <table>
@@ -216,32 +202,46 @@
       <div class="row"><h4>January-March(Cycle 1)</h4></div>
       <div class="row justify-content-between">
         <div class="col-sm-3 align-item-center cardbg">
-          <img src="assets/CableCar.gif" alt="GIF of a cable Car" width="300" height=auto>
-          <h6>Cable Car Voucher</h6>
-        </div>
-      
-        <div class="col-sm-3 cardbg">
-          <img src="assets/shopping_cart.jpg" alt="Image of Filled Supermarket trolley" width = "300" height = "auto">
-          <h6>NTUC Voucher</h6>
+          <img style="display: none;" src="assets/CableCar.gif" alt="GIF of a cable Car" width="300" height=auto>
+          <h5 class="text-center">Cable Car Voucher</h5>
+          <h5 class="text-center">Tier 1 Prize</h5>
+          <h5 class="text-center">8000 APP</h5>
+          <button style="display: none;" class="btn btn-primary">Purchase</button>
         </div>
         <div class="col-sm-3 cardbg">
-          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_NiUhhS.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-          <h6>Bubble Tea Voucher</h6>
+          <img style="display: none;" src="assets/shopping_cart.jpg" alt="Image of Filled Supermarket trolley" width = "300" height = "auto">
+          <h5 class="text-center">NTUC Voucher</h5>
+          <h5 class="text-center">Tier 2 Prize</h5>
+          <h5 class="text-center">4500 APP</h5>
+          <button style="display: none;" class="btn btn-primary">Purchase</button>
+        </div>
+        <div class="col-sm-3 cardbg">
+          <lottie-player style="display: none;" src="https://assets1.lottiefiles.com/packages/lf20_NiUhhS.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+          <h5 class="text-center">Bubble Tea Voucher</h5>
+          <h5 class="text-center">Tier 3 Prize</h5>
+          <h5 class="text-center">900 APP</h5>
+          <button style="display: none;" class="btn btn-primary">Purchase</button>
         </div>
       </div>
       <div class="row"><h4>May-July(Cycle 2)</h4></div>
       <div  class="row justify-content-between">
         <div class="col-sm-3 align-item-center cardbg">
-          <img src="assets/Jewel-lounge.jpg" alt="Image of Jewel Lounge" width = "300" height = "auto">
-          <h6>Jewel lounge Entry For 1</h6>
+          <img style="display: none;" src="assets/Jewel-lounge.jpg" alt="Image of Jewel Lounge" width = "300" height = "auto">
+          <h5 class="text-center">Jewel lounge Entry For 1</h5>
+          <h5 class="text-center">Tier 1 Prize</h5>
+          <h5 class="text-center">8000 APP</h5>
         </div>
         <div class="col-sm-3 cardbg">
-          <img src="assets/pasta-image.jpg" alt="Pasta poster" width = "300" height = "auto">
-          <h6>Pastamania Voucher</h6>
+          <img style="display: none;" src="assets/pasta-image.jpg" alt="Pasta poster" width = "300" height = "auto">
+          <h5 class="text-center">Pastamania Voucher</h6>
+          <h5 class="text-center">Tier 2 Prize</h5>
+          <h5 class="text-center">3000 APP</h5>
         </div>
         <div class="col-sm-3 cardbg">
-          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_cXVf2b.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-          <h6>McDonalds Coupon</h6>
+          <lottie-player style="display: none;" src="https://assets2.lottiefiles.com/packages/lf20_cXVf2b.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+          <h5 class="text-center">McDonalds Coupon</h5>
+          <h5 class="text-center">Tier 3 Prize</h5>
+          <h5 class="text-center">1000 APP</h5>
         </div>
       </div>
       <div class="row">
@@ -249,16 +249,22 @@
       </div>
       <div class="row justify-content-between">
         <div class="col-sm-3 align-item-center cardbg">
-          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_lb6Gsk.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-          <h6>Singapore Zoo tickets for 2</h6>
+          <lottie-player style="display: none;" src="https://assets2.lottiefiles.com/packages/lf20_lb6Gsk.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+          <h5 class="text-center">Singapore Zoo tickets for 2</h5>
+          <h5 class="text-center">Tier 1 Prize</h5>
+          <h5 class="text-center">7000 APP</h5>
         </div>
         <div class="col-sm-3 cardbg">
-          <img src="assets/andes_by_astons.jpg" alt="Poster of Andes By Astons Menu" width="300" height ="auto">
-          <h6>Andes By Astons Voucher</h6>
+          <img style="display: none;" src="assets/andes_by_astons.jpg" alt="Poster of Andes By Astons Menu" width="300" height ="auto">
+          <h5 class="text-center">Andes By Astons Voucher</h5>
+          <h5 class="text-center">Tier 2 Prize</h5>
+          <h5 class="text-center">2500 APP</h5>
         </div>
         <div class="col-sm-3 cardbg">
-          <img src="assets/7-eleven_logo.svg.png" alt="7 eleven logo" width = "300" height = "auto">
-          <h6>7-11 Voucher</h6>
+          <img style="display: none;" src="assets/7-eleven_logo.svg.png" alt="7 eleven logo" width = "300" height = "auto">
+          <h5 class="text-center">7-11 Voucher</h5>
+          <h5 class="text-center">Tier 3 Prize</h5>
+          <h5 class="text-center">800 APP</h5>
         </div>
       </div>
       <div class = "fixed">
