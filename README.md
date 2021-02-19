@@ -2,8 +2,8 @@
 
 # Problem Statement
 Nowadays,many youths,students and working adults are busy round the clock,and are very committed to their responsibilities.However,one common issue many people face is time management,caused by lack of planning and a lack of motivation.Hence,my teammate and I decided to come up with a website called orDino,which allows users to plan their schedule and organise their day-to-day events whilst leading stress-free lives. Not motivated or fascinated?? Fret not,this app will offer gamifying features for users to get going.
-
-
+## Intended Audience
+Working adults,students,professionals,even regular white-collar workers who have a common goal: _Organise the daily tasks and projects_
 
 # API Info
 * [Todoist Rest API](https://developer.todoist.com/rest/v1/#overview)
@@ -40,6 +40,47 @@ Tier No.|Title |Points requirements|
 **Tier 1**|T-Rex Tyson |**_(>10000 APPoints)_**
 **Tier 2**| Velociraptor Vin |**_(>6000 APPoints)_**
 **Tier 3**| Seismosaurus Simon |**_(>2000 APPoints)_**
+Points System(Activities)
+==========================
+Create Task : 30 points
+Delete Task : -10 points
+Reschedule task: -100 points
+Complete Task : 80 points
+
+Create Project : 400 points
+Delete Project :  -200 points
+* first time users get 100 free APPoints
+This game is conducted in 3 cycles.
+Cycle 1 : January - March (April break)
+Cycle 2 :May- July (August Break)
+Cycle 3 : September - November (December Break)
+In 3 months,users can earn as much APPoints as they can.
+After 3 months,it will be reset.
+
+REWARDS 
+=============================
+Tier 1
+===============
+Cycle 1:Cable Car Vouchers (8000 APPoints)     
+Cycle 2:Jewel Premium Lounge vouchers (8000 APPoints)
+cycle 3:Zoo tickets(2 people) (7000 APPoints)
+
+Tier 2
+===============
+cycle 1:FairPrice Voucher $35 (4500 APPoints)
+cycle 2:PastaMania Voucher $25 (3000 APPoints)
+cycle 3:Andes by Astons Voucher $20 (2500 APPoints)
+
+Tier 3
+==================
+cycle 1:Bubble Tea Voucher ($5) (900 APPoints)
+cycle 2:McDonalds Coupon ($7) (1000 APPoints)
+cycle 3:7-Eleven Coupon($5) (800 APPoints)
+
+### Purchase
+1 cycle :1 Purchase (Each eligibile User)
+Tier remains unchanged even if he falls short of category after purchase.(e.g.Points minus after voucher redemption)
+
 
 ### Projects
 * Create a new project (e.g.Exam preparation,wedding Plans etc.)
@@ -66,6 +107,10 @@ Tier No.|Title |Points requirements|
 5. Visual Studio Code
 6.Restdb.io(NoSQL database)
 7.ionicons.com*for navbar icons*
+8.moment.js
+9.datepicker.css
+10. google fonts
+11. OBS Recorder (Video recording)
 
 # Design Rationale
 ## App name
@@ -83,5 +128,35 @@ Responsive side navbar to navigate easily between
 
 # Credits and Acknowledgements
 * [W3Schools](w3schools.com)
+* https://www.jquery-az.com/bootstrap-datepicker-set-up-guide-with-8-online-demos-and-code/
+* https://codetogo.io/how-to-create-date-in-rfc3339-format-in-javascript/
+* https://www.geeksforgeeks.org/how-to-remove-arrow-in-dropdown-in-bootstrap
+
+## Images and GIF
+*[Flaticons.com](https://www.flaticon.com/authors/linector) 
+ Author Name-Linector
+
+* [Cable Car gif](https://www.pinterest.com/pin/387239267958847590/)
+
+* [Freepik Pasta Image](https://www.freepik.com/vectors/food)  : Food vector created by macrovector 
+
+* [Freepik Supermarket Image](https://www.freepik.com/photos/food)  : Food photo created by pressfoto 
+
+* [7 eleven Image](https://commons.wikimedia.org/wiki/File:7-eleven_logo.svg)
+
+* [Andes By astons Image](https://www.facebook.com/ANDESbyAstons/photos/a.1631307650520315/1729928523991560/?type=3&theater)
+
+* [Jewel lounge image](https://www.traveller.com.au/singapore-why-singaporeans-love-their-airport-and-its-new-jewel-h1eauu)
+* 
 ## Youtubers(Channels)
-  * Coding Market
+ * Coding Market
+* Web Dev Simplified
+* Code Tube
+* Coding Shiksha
+* Dani Krossing
+* freeCodeCamp
+* Brian design 
+* Bedim code
+
+## GITHUB link
+https://alanantony24.github.io/ID-Assignment-3/
