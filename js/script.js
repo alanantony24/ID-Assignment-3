@@ -174,7 +174,7 @@ function updateActiveProject(pId,updatedName,API_KEY){
 
 
 
-/*============  NEW FUNCTIONS FOR TASKS REST API ADDED BELOW==========================*/
+/*============  NEW FUNCTIONS FOR TASKS REST API ADDED BELOW(testing purposes only)==========================*/
 
 function getOneTask(activeTask,API_KEY){          //get tasks only works for ACTIVE tasks
     var settings={
