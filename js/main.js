@@ -1,8 +1,9 @@
 var API_KEY =localStorage.getItem("API_KEY");//global api-key modified in ajax for general use
+var userPoints = 0;
 $(document).ready(function(){
     $('.toast').toast('show');  //initialise bootstrap toast
     getUserPoints();            //initialise user points from restdb
-    var userPoints = localStorage.getItem("APPoints");
+    userPoints = localStorage.getItem("APPoints");
     displayName() //load first when ready
     console.log("API-KEY is:" + API_KEY);
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
@@ -24,17 +25,20 @@ $(document).ready(function(){
     })
     var $leaderBoardTab = $('nav.nav1').children().children().eq(1).children().eq(3);
     $leaderBoardTab.on('click',function(){
-        
-        getAllGameRecords();
+        var clickCount = 1;
+        if(clickCount == 1){
+            getAllGameRecords();
+            clickCount += 1;  //--> 2 prevent repeated appending of content
+        }
     });
     /*==========================================INBOX TAB EVENT LISTENERS============================================*/
     var $deleteIcon = document.querySelectorAll('div.accordion-body button#delete');
-/*     $deleteIcon.addEventListener('focus',function(){
+    $deleteIcon.addEventListener('focus',function(){
         alert("hello");
         // deleteProject(,API_KEY);
         // getAllProjects(colorArray);//call function again to reset the project List in DOM 
-    },false);       
- */ var $editIcon = $('div.accordion-body button#update');
+    },false);
+    var $editIcon = $('div.accordion-body button#update');
     $editIcon.on("click",function(e){
         e.preventDefault();
         alert('sup')
@@ -49,8 +53,7 @@ $(document).ready(function(){
         var selectedTaskName = $('[aria-expanded=true]').text().trim()
         console.log(selectedTaskName);
         $('h5#tasknameaddcomments').text(selectedTaskName);
-    
-    });
+    });//api doesn't work
 });
 /*===================================SIDE NAVBAR & AJAX FUNCTIONS====================================================*/
 var colorArray = 
@@ -108,7 +111,7 @@ function getAllProjects(colorArray){
                 <div class="accordion-body">
                 <span data-tooltip="Add comment"><button id="comment"><ion-icon name="chatbox-ellipses-outline"></ion-icon></button></span>
                 <span data-tooltip="Edit"><button id="update"><ion-icon name="create-outline"></ion-icon></button></span>
-                <span data-tooltip="Delete"><button onclick = "getallproj(pList,API_KEY)" id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
+                <span data-tooltip="Delete"><button id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
                 </div>
               </div>
             </div>`
@@ -168,6 +171,8 @@ function deleteProject(deleteId,API_KEY){
     $.ajax(settings).done(function(response){
         console.log(response);
         if(response  === undefined){
+            userDelProjects += 1;
+            updatePoints(API_KEY);  //update RestDB
             alert(`Project ID:${deleteId} has been deleted successfully.`);
         }
     });
@@ -238,6 +243,13 @@ function getActiveTasks(API_KEY){
               <span style="padding-right: 20px;"><a data-bs-toggle="modal" data-bs-target="#calendarModal"><ion-icon name="calendar-outline"></ion-icon>${new Date (response[i].due.date).toDateString()}</a></span>
               <span style="padding-right: 20px;"><a data-bs-toggle="modal" data-bs-target="#commentmodal"><ion-icon name="chatbox-outline"></ion-icon>Add Comments</a></span></span>
               <span><a data-bs-toggle="modal" data-bs-target="#viewcomments"><ion-icon name="eye-outline"></ion-icon>View Comments</a></span></span>
+              <span><div class="form-check">
+              <br>
+              <input onclick="displayToast()" class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Complete Task
+              </label>
+            </div></span>
               </div>
             </div>
           </div>`
@@ -258,11 +270,25 @@ function getActiveTasks(API_KEY){
     });
    
     var d = $("[aria-expanded=true]").parent().next().children().children().first().children().text();
-  
+
     $('accordion-body').children('span').first().on('focus',function(){
         alert('a');
     });
     $('#calendarModal h6.duedate').text(d);
+}
+function reopenTask(reOpenId){
+    var settings = {
+        "url":`https://api.todoist.com/rest/v1/tasks/${reOpenId}/reopen`,
+        "method":"POST",
+        "headers":{
+            "Authorization":`Bearer ${API_KEY}`
+        }
+    };
+    $.ajax(settings).done(function(response){
+        if(response == undefined){
+
+        }
+    });
 }
 //Side Anvigation and Banner
 const showMenu = (toggleId, navbarId, bodyId)=>{
@@ -346,6 +372,8 @@ var reschedulebutton = document.getElementById("reschedulebtn");
 reschedulebutton.addEventListener('click', function(){
     var rescheduleDate  =  $('input#picker').val();
     rescheduleDate = new Date(rescheduleDate).toISOString(); // convert to ISO format
+    rescheduleCount += 1;
+    updatePoints(API_KEY); //update restdb
 })    
 $("#picker").hide();
 function showCalendar(){
@@ -426,17 +454,18 @@ function TopFunction() {
   document.documentElement.scrollTop = 0;
 }
 /*=====================================JAVASCRIPT FOR THE GAMIFICATION FEATURES======================================================== */
-
 // TIERS points
 var tier1 = 10000;
 var tier2 = 6000;
 var tier3 = 2000;
-
-var monthlyQuest =[
-    {}, 
-    {},
-    {}
-];
+//Users details initialised -->updated as &when actions occur
+var userCreatedProjects = 0;
+var userDelProjects = 0;
+var rescheduleCount = 0;
+var userCreatedTasks = 0;
+var userDelTasks = 0;
+var userCompTasks = 0;
+var userTier = 0;
 //APPoints variable will be stored in restdb -default 100
 // basic points
 var createTask = 30;
@@ -445,9 +474,8 @@ var rescheduleTask = -100;
 var completedTask = 80;
 
 var createProject = 400;
-var deleteProject = -200;
+var delProject = -200;
 
-var quest = 200;
 var startingDate = new Date('17/02/2021'); //will be done on a certain date to start points system 
 
 var currentDate = new Date() ;
@@ -464,29 +492,23 @@ if (dayDiff == 90)
 	//reset all users' APPoints to 0
 }
 //adding points for creating task
-function createTaskAddPoints(userPoints){
-    userPoints = userPoints + 30;
-    console.log(userPoints);
-}
 var count = 0;
 var addtaskbtn = document.getElementById("addtask");
 addtaskbtn.addEventListener('click', function(){
     count = count + 1;
     if(count == 1){
-        createTaskAddPoints(userPoints);
+        userCreatedTasks+=1; //update userCreatedTasks
+        updatePoints(API_KEY); //update restdb
     }
 })
 //creating project
-function createProjectAddPoints(userPoints){
-    userPoints = userPoints + 400;
-    console.log(userPoints);
-}
 var count = 0;
 var addprojbtn = document.getElementById("addprojbtn");
 addprojbtn.addEventListener('click', function(){
     count = count + 1;
     if(count == 1){
-        createProjectAddPoints(userPoints);
+        userCreatedProjects+=1; //updated userCreatedProjects
+        updatePoints(API_KEY); //update restdb
     }
 })
 //we have tested all the vairable but for some reason it does not work. We honestly dont know why.
@@ -566,7 +588,20 @@ function getAllGameRecords(){ //for the leaderboard ranking
       });
 
 }
-function updatePoints(calculatedPoints,API_KEY){
+function updatePoints(API_KEY){
+    userPoints = (userCompTasks * completedTask) + (userCreatedTasks * createTask) + (userDelTasks * deleteTask) + (rescheduleCount * rescheduleTask) + (userCreatedProjects * createProject) + (userDelProjects * delProject);
+    if (userPoints >= tier3 && userPoints < tier2){
+        userTier = 3;
+    }
+    else if (userPoints>=tier2 && userPoints < tier1){
+        userTier = 2;
+    }
+    else if (userPoints >= tier1){
+        userTier = 1;
+    }
+    else {
+        userTier = 0;
+    }
     var idReference = {
         "69240a14af7f11d150b64bc00c5558cba3741041":"6022a234e4ccd46b0001c90f",
         "9ffb6de49236f049524d53010b0fe7e1b55a9175":"60263ad8b0bc995a0001b52f",
@@ -574,7 +609,14 @@ function updatePoints(calculatedPoints,API_KEY){
         "74829a769468751c27ce5dbf7c162c31c6972322":"6020a5d3e4ccd46b000050ee"
     };    
     var jsondata = {
-        "APPoints":calculatedPoints       
+        "created_projects":userCreatedProjects,
+        "deleted_projects":userDelProjects,
+        "APPoints":userPoints,
+        "reschedule_count":rescheduleCount,
+        "created_tasks":userCreatedTasks,
+        "deleted_tasks":userDelTasks,
+        "completed_tasks":userCompTasks,
+        "Tier":userTier
     };
     var settings = {
         "async": true,
@@ -629,15 +671,6 @@ function displayAwardTips(){
     var tips = '<ol><li>You have to gain more points by completing more tasks.</li><li>Aim for a higher tier</li><li>Less is More,do lesser tasks each day.</li><li>Remember,consistency is key!</li><li>Lastly,Earn your reward!</li></ol>'
     $('div.toast-body').append(tips);
 }
-$('.flip-card').on("focus",function(){
-    $thatPrice
-    if(user.APPoints>= $thatPrice & user.Tier == $thatTier){
-        //purchase success
-    }
-    else{
-        $('.toast-container').show();
-    }
-});
 for(var i = 0; i < $('.cardbg').length; i++){
     $('.user-points').next().next().children().eq(i).on('click', function(){
         $(this).hide(1000);
@@ -646,34 +679,53 @@ for(var i = 0; i < $('.cardbg').length; i++){
         $(this).show(1000);
     })
 }
-
-
 prizeList = {
-"Cable Car Voucher":{"path":"assets/CableCar.gif","price":"8000"},
-"FairPrice Voucher $35":{"path":"assets/shopping_cart.jpg","price":"4500"},
-"Bubble Tea Voucher ($5)":{"path":'<lottie-player src="https://assets1.lottiefiles.com/packages/lf20_NiUhhS.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>'
-,"price":"900"},
-"Jewel lounge Entry For 1":{"path":"assets/Jewel-lounge.jpg","price":"8000"},
-"Pastamania Voucher":{"path":"assets/pasta-image.jpg","price":"3000"},
-" McDonalds Coupon ($7)":{"path":'<lottie-player src="https://assets2.lottiefiles.com/packages/lf20_cXVf2b.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>',"price":"1000"},
-" Singapore Zoo tickets for 2":{"path":'<lottie-player src="https://assets2.lottiefiles.com/packages/lf20_lb6Gsk.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>'
-,"price":"7000"},
-"Andes By Astons Voucher($20)":{"path":"assets/andes_by_astons.jpg","price":"2500"},
-"7-11 Voucher($5)":{"path":"assets/7-eleven_logo.svg.png","price":"800"}
+    "Cable Car Voucher":{"price":8000},
+    "FairPrice Voucher $35":{"price":4500},
+    "Bubble Tea Voucher ($5)":{"price":900},
+    "Jewel lounge Entry For 1":{"price":8000},
+    "Pastamania Voucher":{"price":3000},
+    "McDonalds Coupon ($7)":{"price":1000},
+    "Singapore Zoo tickets for 2":{"price":7000},
+    "Andes By Astons Voucher($20)":{"price":2500},
+    "7-11 Voucher($5)":{"price":800}
+    }
+    var voucherName = "";
+    function voucherRedemption(voucherName,prizeList,userPoints,selector){
+        voucherName = selector;
+        for(let i in prizeList){
+            if(i == voucherName){
+                var voucherCost = prizeList[i].price;
+                if(userPoints >= voucherCost){
+                    userPoints -= voucherCost;
+                    alert("Voucher redemption successful");
+                }
+                else{
+                    //display alert toast
+                    $(".toast-container").show(500);
+                }
+            }
+        }
+    
+    }
+function closeTask(closingTaskId){
+    var settings = {
+        "url": `https://api.todoist.com/rest/v1/tasks/${closingTaskId}/close`,
+        "method":"POST",
+        "statusCode":{
+            204:function(){
+                alert(`Task Id :${closingTaskId} has been successfully closed!`);
+            }
+        },
+        "headers":{
+            "Authorization":`Bearer ${API_KEY}`
+        }
+    }
+    $.ajax(settings).done(function(response){
+    });
 }
-
-// $(btn).on('click',function(prizeList,userPoints){
-//     getName;
-//     for(let i in prizeList){
-//         if(prizeList[i] == getName){
-//             var voucherCost = prizeList[i].price;
-//             if(userPoints >= voucherCost){
-//                 userPoints -= voucherCost;
-//             }
-//             else{
-//                 //display alert toast
-//             }
-//         }
-//     }
-// });
+function displayToast(){
+    var toast = document.getElementById("toastcompleted")
+    toast.style.display = "block";
+}
 
