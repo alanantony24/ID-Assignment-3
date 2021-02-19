@@ -1,5 +1,7 @@
 var API_KEY =localStorage.getItem("API_KEY");//global api-key modified in ajax for general use
 $(document).ready(function(){
+    getUserPoints();
+    var userPoints = localStorage.getItem("APPoints");
     displayName() //load first when ready
     console.log("API-KEY is:" + API_KEY);
     /*===================================SIDE NAVBAR EVENT LISTENERS====================================================*/
@@ -9,15 +11,20 @@ $(document).ready(function(){
         clickCount += 1;
         if(clickCount == 1){
             getAllProjects(colorArray);
-            getActiveTasks(API_KEY);//display active tasks in DOM            $('section#inbox h3').show(1000);
+            getActiveTasks(API_KEY,taskList);//display active tasks in DOM            $('section#inbox h3').show(1000);
             $('section#inbox span a').attr("href","/comment-page");
             $('.dropdown.extra-options').detach().appendTo('.three-dots');
+            var accordionLength = document.querySelectorAll('.accordion-item');
         }
     })
     $inboxTab.off("focus",function(){
         alert("Ufffffff!")
         clickCount = 0; //reset
     })
+    var $leaderBoardTab = $('nav.nav1').children().children().eq(1).children().eq(4);
+    $leaderBoardTab.on('focus',function(){
+        getAllGameRecords();
+    });
     /*==========================================INBOX TAB EVENT LISTENERS============================================*/
     var $deleteIcon = document.querySelectorAll('div.accordion-body button#delete');
 /*     $deleteIcon.addEventListener('focus',function(){
@@ -30,13 +37,13 @@ $(document).ready(function(){
         e.preventDefault();
         alert('sup')
     });
-    $('a:contains("View Comments")').on('click',function(){
+    $('a:contains("View Comments")').on('click',function(){         //when user clicks on view comments
         var selectedTaskName = $('[aria-expanded=true]').text().trim()
         console.log(selectedTaskName);
         $('h5.taskNameinModal').text(selectedTaskName);
     
     });
-    $('a:contains("Add Comments")').on('click',function(){
+    $('a:contains("Add Comments")').on('click',function(){          //when user clicks on add comments
         var selectedTaskName = $('[aria-expanded=true]').text().trim()
         console.log(selectedTaskName);
         $('h5#tasknameaddcomments').text(selectedTaskName);
@@ -67,6 +74,8 @@ var colorArray =
         48:"#b8b8b8",
         49:"#ccac93"
     }
+var pList =[]   //stored from API responses
+var taskList = []
 //Function for getting the projects
 function getAllProjects(colorArray){
     var content = '<div class="accordion accordion-flush" id="accordionFlushExample"></div>';
@@ -80,16 +89,13 @@ function getAllProjects(colorArray){
     };
     $.ajax(settings).done(function(response){
         console.log(response);
-        // for (let i = 30;i<50;i++){
-        //     if(i == response[4].color){
-        //         $('section.main div').attr("style",`background-color:${colorArray[i]};`);
-        //     }
-        // }
         var color = "";
         for(let i =0;i<response.length;i++){
-            if(response[i].hasOwnProperty("color")){
-                color = response[i].color;
-            }
+            // if(response[i].hasOwnProperty("color")){
+            //     color = response[i].color;
+            // }
+            pList = response;
+           
             content += `<div class="accordion-item">
               <h2 class="accordion-header" id="flush-heading${i+1}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapses${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
@@ -100,7 +106,7 @@ function getAllProjects(colorArray){
                 <div class="accordion-body">
                 <span data-tooltip="Add comment"><button id="comment"><ion-icon name="chatbox-ellipses-outline"></ion-icon></button></span>
                 <span data-tooltip="Edit"><button id="update"><ion-icon name="create-outline"></ion-icon></button></span>
-                <span data-tooltip="Delete"><button id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
+                <span data-tooltip="Delete"><button onclick = "getallproj(pList,API_KEY)" id="delete"><ion-icon name="trash-outline"></ion-icon></button></span>
                 </div>
               </div>
             </div>`
@@ -197,7 +203,7 @@ function createNewTask(taskName,API_KEY, dueDate){
         "data":JSON.stringify(taskInfo)
     }
     $.ajax(settings).done(function(response){
-        console.log(response);
+       
         hideModal();
         function hideModal(){
             $("#addTask").modal('toggle');
@@ -215,8 +221,10 @@ function getActiveTasks(API_KEY){
         }
     }
     $.ajax(settings).done(function(response){
-        console.log(response);
+        
+        taskList = response;
         for(let i =0;i<response.length;i++){
+            
             tasks+=`<div class="accordion-item">
             <h2 class="accordion-header" id="flush-heading${i+1}">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${i+1}" aria-expanded="false" aria-controls="flush-collapse${i+1}">
@@ -234,8 +242,24 @@ function getActiveTasks(API_KEY){
           tasks+='<span class = "three-dots"></span></div>'    //add the 'options' dots at the side using js later
         }
         var projectList = document.getElementById("getalltasks");
-        projectList.innerHTML = tasks; 
+        projectList.innerHTML = tasks;
+        var startdate = new Date (response[i].due.date).toDateString();
+        startingDate = new Date(startdate);
+        var todaysDate = new Date() ;
+        var timeDiff=  startingDate.getTime() - todaysDate.getTime();
+        var dayDiff = timeDiff / (1000 * 3600 * 24);
+        dayDiff = Math.ceil(dayDiff);
+        $("#daydiff").html(dayDiff);
+        $("#duedate").html(startdate)        
+
     });
+   
+    var d = $("[aria-expanded=true]").parent().next().children().children().first().children().text();
+  
+    $('accordion-body').children('span').first().on('focus',function(){
+        alert('a');
+    });
+    $('#calendarModal h6.duedate').text(d);
 }
 //Side Anvigation and Banner
 const showMenu = (toggleId, navbarId, bodyId)=>{
@@ -275,6 +299,7 @@ function logOutUser(logOutContent){
   $mainPage.remove();
   $('body').prepend(logOutContent);
   setTimeout(redirectToHome,2500);
+  localStorage.clear(); //to clear previous user data,credentials to being carried forward to subsequent user.
 }
 function redirectToHome(){
     window.location.replace("index.html");
@@ -313,13 +338,18 @@ $('#picker').daterangepicker({
 //     showDropdowns:true,
 //     opens:'left',
 //     drops:'down'
-// });    
+// });
+var reschedulebutton = document.getElementById("reschedulebtn");
+reschedulebutton.addEventListener('click', function(){
+    var rescheduleDate  =  $('input#picker').val();
+    rescheduleDate = new Date(rescheduleDate).toISOString(); // convert to ISO format
+})    
 $("#picker").hide();
 function showCalendar(){
     $("#picker").show(1000);
 }
-$("#picker").hide();
 function hideSection(){
+    $('#inbox h4').hide();
     $("#getallproj").hide();
     $("#getalltasks").hide();
 }
@@ -330,6 +360,65 @@ function showSection(){
     $projectsHeader.hide().show(1000);
     $("#getallproj").hide().show(1500);
     $("#getalltasks").hide().show(2000);
+}
+function hideLeaderBoard(){
+    $('#leaderboard').hide();
+}
+function showLeaderBoard(){
+    $('#leaderboard').show(1000);
+}
+function hideStore(){
+    $('#store').hide(1000);
+}
+function showStore(){
+    $('#store').show(1000);
+    $('div.user-points h5').text(`APPoints:${localStorage.getItem("APPoints")}`);
+}
+function getUserPoints(){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records",
+        "method": "GET",
+        "headers": {
+          "content-type": "application/json",
+          "x-apikey": "601fe54e3f9eb665a168922e",
+          "cache-control": "no-cache"
+        }
+    }
+      
+    $.ajax(settings).done(function (response) {
+        for(let i =0;i<response.length;i++){
+            let user = response[i];
+            userPoints = user.APPoints;
+            var Tier = user.Tier;
+            if(API_KEY == user.API_KEY){
+                localStorage.setItem("APPoints",user.APPoints); //get the current user APPoints
+                break;
+            }
+            
+        }
+    });
+}
+//code gotten from W3Schools
+//Get the button
+var mybutton = document.getElementById("topBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function TopFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 /*=====================================JAVASCRIPT FOR THE GAMIFICATION FEATURES======================================================== */
 
@@ -369,8 +458,48 @@ if (dayDiff == 90)
 	startingDate = new Date();
 	//reset all users' APPoints to 0
 }
-
-function getAllGameRecords(){
+//adding points for creating task
+function createTaskAddPoints(userPoints){
+    userPoints = userPoints + 30;
+    console.log(userPoints);
+}
+var count = 0;
+var addtaskbtn = document.getElementById("addtask");
+addtaskbtn.addEventListener('click', function(){
+    count = count + 1;
+    if(count == 1){
+        createTaskAddPoints(userPoints);
+    }
+})
+//creating project
+function createProjectAddPoints(userPoints){
+    userPoints = userPoints + 400;
+    console.log(userPoints);
+}
+var count = 0;
+var addprojbtn = document.getElementById("addprojbtn");
+addprojbtn.addEventListener('click', function(){
+    count = count + 1;
+    if(count == 1){
+        createProjectAddPoints(userPoints);
+    }
+})
+//we have tested all the vairable but for some reason it does not work. We honestly dont know why.
+function deleteProj(pList, API_KEY){
+    var pname = $("[class= accordion-button]").text().trim();
+    console.log(pList)
+    for(var i = 0; i < pList.length; i++){
+        console.log(pname)
+        console.log(typeof API_KEY)
+        if(pList[i].name  == pname){
+            alert("Successfull deletion");
+            deleteProject(pList[i].id, API_KEY);
+            console.log(pList[i].id);
+            break;
+        }
+    }
+}
+function getAllGameRecords(){ //for the leaderboard ranking
     var settings = {
         "async": true,
         "crossDomain": true,
@@ -385,12 +514,93 @@ function getAllGameRecords(){
       
       $.ajax(settings).done(function (response) {
         console.log(response);
+        var tableContent = "";
         for(let i =0;i<response.length;i++){
             let user = response[i];
-            user.username;
-            user.APPoints;
-            user.Tier;
+            var Tier = user.Tier;
+            if (Tier == 0){
+                Tier = "NA"
+            }
+            tableContent+=`<tr>
+            <th scope="row">${i+1}</th>
+            <td>${user.username}</td>
+            <td>${user.APPoints}</td>
+            <td>${Tier}</td>
+          </tr>`
+            
         }
+        $('#leaderboard table').children('tbody').html(tableContent);
       });
 
 }
+function updatePoints(calculatedPoints,API_KEY){
+    var idReference = {
+        "69240a14af7f11d150b64bc00c5558cba3741041":"6022a234e4ccd46b0001c90f",
+        "9ffb6de49236f049524d53010b0fe7e1b55a9175":"60263ad8b0bc995a0001b52f",
+        "091ba9ad13fb753c014adf401afbc0b3ce476db2":"60263bf6b0bc995a0001b549",
+        "74829a769468751c27ce5dbf7c162c31c6972322":"6020a5d3e4ccd46b000050ee"
+    };    
+    var jsondata = {
+        "APPoints":calculatedPoints       
+    };
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": `https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records/${idReference[API_KEY]}`,
+        "method": "PUT",
+        "headers": {
+          "content-type": "application/json",
+          "x-apikey": "601fe54e3f9eb665a168922e",
+          "cache-control": "no-cache"
+        },
+        "processData": false,
+        "data": JSON.stringify(jsondata)
+    };
+      
+    $.ajax(settings).done(function(response) {
+        console.log(response);
+    });
+}
+//js to cycle through the different month rewards
+
+if (currentDate.getMonth() >= 1 && currentDate.getMonth() <= 3){                     //cycle 1
+    hideCycle2();
+    hideCycle3();
+}
+else if(currentDate.getMonth() >= 5 && currentDate.getMonth() <= 7){                //cycle 2
+    hideCycle1();
+    hideCycle3();
+}
+else if (currentDate.getMonth() >=9 && currentDate.getMonth()<=11){                  //cycle 3
+    hideCycle1();
+    hideCycle2();
+}
+else{
+    //break months no quests or rewards i.e April,August,December
+}
+function hideCycle1(){
+    $('div#store').children('.row').eq(1).css("display","none");
+    $('div#store').children('.row').eq(2).css("display","none");
+}
+function hideCycle2(){
+    $('div#store').children('.row').eq(2).css("display","none");
+    $('div#store').children('.row').eq(3).css("display","none");
+
+}
+function hideCycle3(){
+    $('div#store').children('.row').eq(4).css("display","none");
+    $('div#store').children('.row').eq(5).css("display","none");
+}
+function displayAwardTips(){
+    var tips = '<ol><li>You have to gain more points by completing more tasks.</li><li>Aim for a higher tier</li></ol>'
+    $('div.toast-body').append(tips);
+}
+$('.flip-card').on("focus",function(){
+    $thatPrice
+    if(user.APPoints>= $thatPrice & user.Tier == $thatTier){
+        //purchase success
+    }
+    else{
+        
+    }
+});

@@ -109,15 +109,9 @@ function getAllProjects(){
         //         $('section.main div').attr("style",`background-color:${colorArray[i]};`);
         //     }
         // }
-
-
     })
-        
 };
-
 function getOneProject(targetId,API_KEY){
-    
-   
     var settings =
     {
         "url":`https://api.todoist.com/rest/v1/projects/${targetId}`,
@@ -126,12 +120,10 @@ function getOneProject(targetId,API_KEY){
             "Content-Type":"application/json",
             "Authorization":`Bearer ${API_KEY}`
         }
-
     }
     $.ajax(settings).done(function(response){
         console.log(response);
     });
-
 }
 
 function createNewTask(taskName,API_KEY){
