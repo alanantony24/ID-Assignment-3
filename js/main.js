@@ -1,6 +1,7 @@
 var API_KEY =localStorage.getItem("API_KEY");//global api-key modified in ajax for general use
 $(document).ready(function(){
-    getUserPoints();
+    $('.toast').toast('show');  //initialise bootstrap toast
+    getUserPoints();            //initialise user points from restdb
     var userPoints = localStorage.getItem("APPoints");
     displayName() //load first when ready
     console.log("API-KEY is:" + API_KEY);
@@ -21,8 +22,9 @@ $(document).ready(function(){
         alert("Ufffffff!")
         clickCount = 0; //reset
     })
-    var $leaderBoardTab = $('nav.nav1').children().children().eq(1).children().eq(4);
-    $leaderBoardTab.on('focus',function(){
+    var $leaderBoardTab = $('nav.nav1').children().children().eq(1).children().eq(3);
+    $leaderBoardTab.on('click',function(){
+        
         getAllGameRecords();
     });
     /*==========================================INBOX TAB EVENT LISTENERS============================================*/
@@ -240,17 +242,18 @@ function getActiveTasks(API_KEY){
             </div>
           </div>`
           tasks+='<span class = "three-dots"></span></div>'    //add the 'options' dots at the side using js later
+          var projectList = document.getElementById("getalltasks");
+          projectList.innerHTML = tasks;
+          var startdate = new Date (response[i].due.date).toDateString();
+          startingDate = new Date(startdate);
+          var todaysDate = new Date() ;
+          var timeDiff=  startingDate.getTime() - todaysDate.getTime();
+          var dayDiff = timeDiff / (1000 * 3600 * 24);
+          dayDiff = Math.ceil(dayDiff);
+          $("#daydiff").html(dayDiff);
+          $("#duedate").html(startdate)        
+  
         }
-        var projectList = document.getElementById("getalltasks");
-        projectList.innerHTML = tasks;
-        var startdate = new Date (response[i].due.date).toDateString();
-        startingDate = new Date(startdate);
-        var todaysDate = new Date() ;
-        var timeDiff=  startingDate.getTime() - todaysDate.getTime();
-        var dayDiff = timeDiff / (1000 * 3600 * 24);
-        dayDiff = Math.ceil(dayDiff);
-        $("#daydiff").html(dayDiff);
-        $("#duedate").html(startdate)        
 
     });
    
@@ -364,7 +367,9 @@ function showSection(){
 function hideLeaderBoard(){
     $('#leaderboard').hide();
 }
+var pointsList =[]//declare array to be used for sequential leaderboard display
 function showLeaderBoard(){
+    sortUserPoints(pointsList);
     $('#leaderboard').show(1000);
 }
 function hideStore(){
@@ -499,6 +504,30 @@ function deleteProj(pList, API_KEY){
         }
     }
 }
+//main sort function gotten from w3schools
+function sortUserPoints(pointsList){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://ordinouserrecords-4526.restdb.io/rest/ordino-user-records",
+        "method": "GET",
+        "headers": {
+          "content-type": "application/json",
+          "x-apikey": "601fe54e3f9eb665a168922e",
+          "cache-control": "no-cache"
+        }
+      }
+      
+      $.ajax(settings).done(function (response) {
+        for(let i =0;i<response.length;i++){
+            let points = response[i].APPoints
+            pointsList.push(points);
+        }
+        console.log(pointsList);
+      });
+
+    pointsList = pointsList.sort(function(a, b){return b-a}); //w3schools
+}
 function getAllGameRecords(){ //for the leaderboard ranking
     var settings = {
         "async": true,
@@ -515,19 +544,23 @@ function getAllGameRecords(){ //for the leaderboard ranking
       $.ajax(settings).done(function (response) {
         console.log(response);
         var tableContent = "";
-        for(let i =0;i<response.length;i++){
-            let user = response[i];
-            var Tier = user.Tier;
-            if (Tier == 0){
-                Tier = "NA"
+        for(let x =0 ;x<pointsList.length;x++){
+            for(let i =0;i<response.length;i++){
+                let user = response[i];
+                var Tier = user.Tier;
+                if (Tier == 0){
+                    Tier = "NA"
+                }    
+                if(user.APPoints == pointsList[x]){
+                    tableContent+=`<tr>
+                    <th scope="row">${i+1}</th>
+                    <td>${user.username}</td>
+                    <td>${user.APPoints}</td>
+                    <td>${Tier}</td>
+                  </tr>`
+        
+                }
             }
-            tableContent+=`<tr>
-            <th scope="row">${i+1}</th>
-            <td>${user.username}</td>
-            <td>${user.APPoints}</td>
-            <td>${Tier}</td>
-          </tr>`
-            
         }
         $('#leaderboard table').children('tbody').html(tableContent);
       });
@@ -592,7 +625,8 @@ function hideCycle3(){
     $('div#store').children('.row').eq(5).css("display","none");
 }
 function displayAwardTips(){
-    var tips = '<ol><li>You have to gain more points by completing more tasks.</li><li>Aim for a higher tier</li></ol>'
+    $('.toast-body button').hide(900);
+    var tips = '<ol><li>You have to gain more points by completing more tasks.</li><li>Aim for a higher tier</li><li>Less is More,do lesser tasks each day.</li><li>Remember,consistency is key!</li><li>Lastly,Earn your reward!</li></ol>'
     $('div.toast-body').append(tips);
 }
 $('.flip-card').on("focus",function(){
@@ -601,6 +635,37 @@ $('.flip-card').on("focus",function(){
         //purchase success
     }
     else{
-        
+        $('.toast-container').show();
     }
 });
+
+
+prizeList = {
+"Cable Car Voucher":{"path":"assets/CableCar.gif","price":"8000"},
+"FairPrice Voucher $35":{"path":"assets/shopping_cart.jpg","price":"4500"},
+"Bubble Tea Voucher ($5)":{"path":'<lottie-player src="https://assets1.lottiefiles.com/packages/lf20_NiUhhS.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>'
+,"price":"900"},
+"Jewel lounge Entry For 1":{"path":"assets/Jewel-lounge.jpg","price":"8000"},
+"Pastamania Voucher":{"path":"assets/pasta-image.jpg","price":"3000"},
+" McDonalds Coupon ($7)":{"path":'<lottie-player src="https://assets2.lottiefiles.com/packages/lf20_cXVf2b.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>',"price":"1000"},
+" Singapore Zoo tickets for 2":{"path":'<lottie-player src="https://assets2.lottiefiles.com/packages/lf20_lb6Gsk.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>'
+,"price":"7000"},
+"Andes By Astons Voucher($20)":{"path":"assets/andes_by_astons.jpg","price":"2500"},
+"7-11 Voucher($5)":{"path":"assets/7-eleven_logo.svg.png","price":"800"}
+}
+
+// $(btn).on('click',function(prizeList,userPoints){
+//     getName;
+//     for(let i in prizeList){
+//         if(prizeList[i] == getName){
+//             var voucherCost = prizeList[i].price;
+//             if(userPoints >= voucherCost){
+//                 userPoints -= voucherCost;
+//             }
+//             else{
+//                 //display alert toast
+//             }
+//         }
+//     }
+// });
+
