@@ -15,6 +15,7 @@
 /*Common CSS selectors*/
 *, ::before, ::after{
   box-sizing: border-box;
+  font-family: 'Josefin Sans', sans-serif;
 }
 body{
     font-family: 'Roboto', sans-serif;
@@ -432,4 +433,75 @@ div.fixed{
     bottom: 35px;
     padding-bottom: 20px;
 }
-/*Learnt from W3Schools*/
+/*Media Queries*/
+@media (max-width: 576px) {
+    .topbanner{
+        margin-top: 0;
+        background-color: #1491AA;
+        position: relative;
+        bottom: 35px;
+        border-radius: 6px;
+    }
+    .topbannertext{
+        padding-left: 20px;
+        padding-top: 10px;
+        color: white;
+    }
+    .topbannername{
+        position: relative;
+        top: 10px;
+        right: 50px;
+    }
+    #leaderboard{
+        margin-left: 20px;
+        margin-right: 20px;
+        max-width: 230px;
+    }
+    .cardbg{
+        max-width: 250px;
+        background-color: white;
+        border-radius: 15px;
+        margin-right: 20px;
+        margin-bottom: 50px;
+    }
+    .user-points ion-icon{
+        color: #69d647;
+        padding-bottom:5px;
+    }
+    .user-points{
+        width: 55%;
+        height: 50px;
+        position: fixed;
+        right:0;
+        top:20;
+        background-color: navy;
+    }
+    #store h4{
+        position: relative;
+        left: 20px;
+        top: 40px;
+        color:red;
+        padding-bottom: 50px;
+    }
+    .cardbg img{
+        max-width: 220px;
+    }
+    .navigationbar{
+        max-width: fit-content;
+    }
+    .smalltext{
+        width: 650px;
+        position: relative;
+        left: 20px;
+        right: 50px;
+        text-align: justify;
+    }
+    .headingtext{
+        position: relative;
+        left: 70px;
+        max-width: 700px;
+    }
+    .landingpage h1{
+        width: 500px;
+    }
+}
